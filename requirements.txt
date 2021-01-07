@@ -12,7 +12,7 @@ nitime >= 0.8.1
 fmriprep == 20.2.1
 smriprep == 0.7.1
 sdcflows == 1.3.3
-mriqc == 0.15.3
+mriqc == 0.16.0
 niworkflows == 1.3.2
 templateflow >= 0.7.0
 pybids >= 0.12.4
