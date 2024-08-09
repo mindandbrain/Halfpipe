@@ -15,8 +15,8 @@ from ..fixes.applytransforms import ApplyTransforms, ApplyTransformsInputSpec
 
 
 class ResampleInputSpec(ApplyTransformsInputSpec):
-    input_space = traits.Either("MNI152NLin6Asym", "MNI152NLin2009cAsym", mandatory=False)
-    reference_space = traits.Either("MNI152NLin6Asym", "MNI152NLin2009cAsym", mandatory=True)
+    input_space = traits.Either("MNI152NLin6Asym", "MNI152NLin2009cAsym", "MNIPediatricAsym", mandatory=False)
+    reference_space = traits.Either("MNI152NLin6Asym", "MNI152NLin2009cAsym", "MNIPediatricAsym", mandatory=True)
     reference_res = traits.Int(mandatory=False)
     lazy = traits.Bool(default=True, usedefault=True, desc="only resample if necessary")
 

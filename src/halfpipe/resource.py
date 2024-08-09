@@ -108,7 +108,7 @@ if __name__ == "__main__":
 
     tfapi.get("OASIS30ANTs")
 
-    spaces = ["MNI152NLin6Asym", "MNI152NLin2009cAsym"]
+    spaces = ["MNI152NLin6Asym", "MNI152NLin2009cAsym", "MNIPediatricAsym"]
     for space in spaces:
         paths = tfapi.get(space, atlas=None, resolution=(1, 2))
         assert isinstance(paths, list)
