@@ -95,7 +95,7 @@ class FmriprepFactory(Factory):
         config.execution._layout = None
         config.execution.layout = None
 
-        output_spaces = [f"{Constants.reference_space}:res-{Constants.reference_res}"]
+        output_spaces = [f"{Constants.reference_space}:res-{Constants.reference_res}:cohort-2"]
 
         if global_settings["run_reconall"]:
             output_spaces.append("fsaverage:den-164k")
@@ -233,7 +233,7 @@ class FmriprepFactory(Factory):
         return bold_file_paths
 
     def get(self, *args, **kwargs):
-        return super().get(*args, **kwargs)
+        raise NotImplementedError
 
     def connect(self, nodehierarchy, node, source_file=None, subject_id=None, **_) -> None:
         """

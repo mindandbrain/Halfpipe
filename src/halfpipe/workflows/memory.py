@@ -34,13 +34,15 @@ class MemoryCalculator(NamedTuple):
             resolution=Constants.reference_res,
             desc="brain",
             suffix="mask",
+            cohort=2,
         )
-        assert isinstance(reference_file, Path)
+        if not isinstance(reference_file, Path):
+            raise ValueError(f"Templateflow did not return a path for the reference file: {reference_file}")
         header, _ = NiftiheaderLoader.load(str(reference_file))
-        assert header is not None
+        if header is None:
+            raise ValueError(f"Could not load the header for the reference file: {reference_file}")
         reference_shape = header.get_data_shape()
-
-        x, y, z = reference_shape[:3]
+        x, y, z = list(reference_shape[0:3])
         volume_std_gb, series_std_gb = cls.calc_bold_gb((x, y, z, t))
 
         return MemoryCalculator(
