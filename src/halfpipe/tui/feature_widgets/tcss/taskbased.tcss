@@ -1,0 +1,178 @@
+.feature {
+    #top_container_task_based {
+        align: center top;
+    }
+    .additional_preprocessing_settings {
+        visibility: visible;
+    }
+    #model_conditions_and_constrasts {
+        height: auto;
+    }
+    .non_bids_panels {
+        border: solid green;
+        border-title-background: green;
+        border-title-color: white;
+        border-title-style: bold;
+        height: auto;
+    }
+    .file_patterns {
+        width: auto;
+        height: 5;
+        border: solid red;
+    }
+    #top_event_file_panel {
+        height: auto;
+        align: center top;
+    }
+
+    #tag_selection {
+        height: auto;
+        padding: 1 0 1 3;
+    }
+    .file_panel {
+        /* border: none;*/
+        align: left top;
+        background: green 30%;
+        width: 110;
+        height: auto;
+        VerticalScroll {
+            height: auto;
+        }
+        Button {
+            width: auto;
+            height: 3;
+            margin: 1 0 0 1;
+        }
+        FileItem {
+            layout: horizontal;
+            height: 5;
+            border: red;
+            .icon_buttons {
+                width: 3;
+                height: 3;
+                margin: 0 1 0 0;
+                min-width: 6;
+                offset-y: 0;
+            }
+            #static_file_pattern {
+                width: auto;
+                padding: 1;
+                color: white;
+            }
+            #icon_buttons_container {
+                width: auto;
+                height: 4;
+                border: none;
+                padding: 0 1;
+            }
+        }
+    }
+    #images_to_use {
+        align: center top;
+        border: green thick;
+        height: auto;
+    }
+    #images_to_use_selection {
+        height: auto;
+        padding: 1 0 1 3;
+    }
+    #preprocessing {
+        align: center top;
+        padding: 1;
+        height: 32;
+        .switch_with_input_box {
+            height: 3;
+            color: white;
+        }
+    }
+    #notes {
+        margin: 1 0 0 0;
+        width: 100%;
+        color: white;
+    }
+    /*    #confounds {
+        align: left middle;
+        height: 15;
+    }
+*/
+    #confounds_selection {
+        height: auto;
+        padding: 1 0 0 1;
+        border: green;
+        offset-y: 1;
+        border-title-background: green;
+        border-title-color: white;
+        border-title-style: bold;
+    }
+    Button {
+        width: 100%;
+        /* width: 50%;
+        column-span: 1; */
+    }
+}
+
+.components {
+    border: green thick;
+    border-title-background: green;
+    border-title-color: white;
+    border-title-style: bold;
+    align: center middle;
+    background: green 30%;
+    grid-size: 2;
+    grid-gutter: 1 2;
+    grid-rows: 1fr 3;
+    padding: 0 1;
+    width: 110;
+    height: auto;
+}
+
+SwitchWithInputBox {
+    height: 3;
+    color: white;
+    Grid {
+        align: left middle;
+        grid-size: 3;
+        grid-columns: 40 16 15;
+    }
+    Static {
+        padding: 1 0 0 2;
+    }
+    #input_switch_input_box {
+        width: 14;
+    }
+}
+
+#minimum_coverage {
+    height: 7;
+    padding: 0;
+}
+
+LabelWithInputBox {
+    height: 3;
+
+    color: white;
+    Grid {
+        align: left middle;
+        grid-size: 3;
+        grid-columns: 57 16 15;
+    }
+    Static {
+        padding: 1 0 0 2;
+    }
+}
+
+SwitchWithSelect {
+    Grid {
+        align: left middle;
+        grid-size: 3;
+        grid-columns: 40 16 40;
+    }
+
+    #input_switch_input_box {
+        width: 30;
+
+        Static {
+            padding: 0 0 0 0;
+        }
+    }
+}

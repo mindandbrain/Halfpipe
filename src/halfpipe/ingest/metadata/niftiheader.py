@@ -22,7 +22,11 @@ def parse_descrip(header: nib.nifti1.Nifti1Header) -> dict[str, float]:
 
     descrip_array = header.get("descrip")
     assert isinstance(descrip_array, np.ndarray)
-    descrip = descrip_array.tolist().decode()
+    descrip = descrip_array.tolist()
+
+    # mypy complain, thus:
+    if isinstance(descrip, bytes):
+        descrip = descrip.decode()
 
     for m in descrip_pattern.finditer(descrip):
         var_name = m.group("var_name")

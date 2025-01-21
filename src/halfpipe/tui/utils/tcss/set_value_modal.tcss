@@ -1,0 +1,39 @@
+SetValueModal {
+    #draggable_modal_screen_container_wrapper {
+        width: 45;
+        height: 15;
+        background: black;
+    }
+    Vertical {
+        border-left: thick $accent;
+        border-right: thick $accent;
+        border-bottom: thick $accent;
+    }
+    Static {
+        height: 2;
+        content-align: center middle;
+        text-style: bold;
+        text-align: center;
+        width: 40;
+        margin: 1 1 1 1;
+    }
+
+    Horizontal {
+        height: 4;
+        align: right bottom;
+        offset-x: 2;
+        Button {
+            margin: 1;
+        }
+    }
+    Input {
+        border: tall white;
+    }
+    Input:focus {
+        border: tall $accent;
+    }
+    .window_title {
+        height: auto;
+        text-align: left;
+    }
+}

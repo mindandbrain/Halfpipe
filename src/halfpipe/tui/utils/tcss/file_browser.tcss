@@ -1,0 +1,100 @@
+FileBrowser {
+    width: 100%;
+    height: 5;
+    #file_browser {
+        align: left top;
+        width: 100%;
+        Label {
+            padding: 1 2;
+        }
+    }
+}
+
+#invalid_path_warning_modal {
+    #draggable_modal_screen_container_wrapper {
+        width: 40;
+        height: 15;
+        background: black;
+    }
+}
+
+FileBrowserModal {
+    #draggable_modal_screen_container_wrapper {
+        width: 68;
+        height: 35;
+        background: black;
+
+        .window_title {
+            height: auto;
+            text-align: left;
+            offset-y: 1;
+        }
+        Horizontal {
+            height: auto;
+            width: 100%;
+            align: right bottom;
+            offset-x: 0;
+            Button {
+                margin: 0 1;
+            }
+        }
+        .browse_tree {
+            height: 25;
+            padding: 0 1 0 1;
+            border-bottom: tall $accent;
+        }
+        #path_input_box2 {
+            border: none;
+        }
+
+        SelectCurrentWithInput {
+            height: 3;
+            width: 100%;
+            margin: 0 0 0 0;
+            padding: 0 0 0 0;
+            border: none;
+            outline: tall $accent;
+            content-align: center bottom;
+            background: transparent;
+            MyInput {
+                border: tall white;
+            }
+        }
+        SelectCurrentWithInput MyInput#label {
+            width: 1fr;
+            height: 3;
+            color: $text-disabled;
+            background: transparent;
+            outline-top: $accent tall;
+            outline-bottom: $accent tall;
+            padding: 1;
+            border: none;
+        }
+
+        SelectCurrentWithInput .arrow {
+            box-sizing: content-box;
+
+            width: 1;
+            height: 2;
+            padding: -1 1 0 0;
+            margin: 1 1 1 -1;
+            color: red;
+            background: transparent;
+            content-align: center bottom;
+        }
+    }
+    /*
+    #file_browser_screen{
+        border: thick $accent;
+        border-top: none;
+        align: center top;
+        width: 62;
+        height: 29;
+
+
+        Button {
+            width: 100;
+        }
+    }
+    */
+}

@@ -1,0 +1,19 @@
+FeatureNameInput {
+    align: center middle;
+    width: 60;
+    height: 9;
+    .feature_name {
+        height: 3;
+        width: 40;
+        margin: 2;
+    }
+    .button_grid {
+        width: 100%;
+        height: auto;
+
+        align: right middle;
+    }
+    .button {
+        margin: 0 1 0 0;
+    }
+}

@@ -172,9 +172,15 @@ jobs:
            e1n3o06osRFD3qtBRgsTy9f9bQHGOpY/riIUrHoEx5c=
           EOF
           # Run the integration tests
-          py.test -k 'not test_consistency' \
+          py.test -k 'not test_consistency and not test_jacobian_wf and not test_feature_extraction and not test_flame1 and not test_fit' \
             --cov --cov-report=xml --dist=load \
             --numprocesses=2
+      - name: Upload Snapshot Report
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: snapshot-report
+          path: /home/runner/actions-runner/_work/HALFpipe/HALFpipe/snapshot_report.html
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:

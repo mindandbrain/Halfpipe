@@ -1,0 +1,33 @@
+TextSwitch {
+    border: tall transparent;
+    height: 5;
+    width: 21;
+    padding: 0 2;
+}
+
+TextSwitch > .switch--slider {
+    background: $panel-darken-2;
+    color: $panel-lighten-2;
+}
+
+TextSwitch:hover {
+    border: tall $background;
+}
+
+TextSwitch:focus {
+    border: tall $accent;
+}
+
+TextSwitch.-on {
+}
+
+TextSwitch.-on > .switch--slider {
+    color: $success;
+}
+
+Switch {
+    border: tall transparent;
+    height: 5;
+    width: 21;
+    padding: 0 2;
+}

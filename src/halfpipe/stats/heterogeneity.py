@@ -138,7 +138,7 @@ def ml_neg_log_lik(
     if x is None:
         return neg_log_lik
 
-    r: npt.NDArray[np.float64] = y - x @ γ
+    r: npt.NDArray[np.float64] = (y - x @ γ).astype(np.float64)
     neg_log_lik += float(r.T @ vinv @ r) / 2
 
     return neg_log_lik

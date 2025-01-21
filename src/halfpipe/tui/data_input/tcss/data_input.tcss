@@ -1,0 +1,181 @@
+DataSummaryLine {
+    height: auto;
+    border: $warning;
+    width: 100%;
+    height: 5;
+    align: center middle;
+    .feedback_container {
+        layout: horizontal;
+        height: 3;
+
+        width: 65;
+        align: left middle;
+        Static {
+            width: auto;
+            border: transparent;
+        }
+        Button {
+            dock: right;
+        }
+    }
+}
+
+DataInput {
+    align: center top;
+    height: auto;
+    #bids_summary_panel {
+        align: center middle;
+    }
+
+    #field_maps_button_panel {
+        align: left middle;
+        margin: 0 1;
+        height: auto;
+    }
+    #bids_panel {
+        align: left top;
+        height: 7;
+        grid-size: 1;
+    }
+    #non_bids_panel {
+        Button {
+            margin: 1 0 0 1;
+        }
+    }
+    Switch {
+    }
+    .label {
+        border: transparent;
+        width: auto;
+    }
+    Vertical {
+        border: thick red;
+        height: auto;
+    }
+    #description {
+        height: 4;
+        padding: 1;
+        text-align: justify;
+    }
+    Container {
+        height: 2;
+    }
+    Horizontal {
+        align: center middle;
+        height: 3;
+    }
+    #help_top {
+        offset-y: 1;
+        height: 5;
+    }
+    .examples {
+        content-align: center middle;
+        border: grey;
+    }
+    #data_input_file_browser {
+        border: solid red;
+    }
+
+    #confirm_button_container {
+        border: transparent;
+        align: center middle;
+        width: 104;
+        height: 5;
+        Button {
+            margin: 0 0 0 0;
+        }
+    }
+}
+
+#not_bids_dir_warning_modal {
+    #draggable_modal_screen_container_wrapper {
+        width: 41;
+        height: 12;
+    }
+}
+
+SetEchoTimeDifferenceModal {
+    #draggable_modal_screen_container_wrapper {
+        width: 40;
+        height: 14;
+        background: black;
+    }
+    Vertical {
+        border-left: thick $accent;
+        border-right: thick $accent;
+        border-bottom: thick $accent;
+    }
+    Static {
+        height: 3;
+        content-align: center middle;
+        text-style: bold;
+    }
+    Input {
+        width: 10;
+        border: tall $accent;
+        offset-x: 15;
+    }
+    Horizontal {
+        height: 4;
+        align: right bottom;
+        offset-x: 1;
+        Button {
+            margin: 1;
+        }
+    }
+}
+
+FieldMapFilesPanel {
+    border: none;
+    height: auto;
+    padding: 1 0 0 0;
+    #delete_button {
+        offset-x: 94;
+        min-width: 6;
+    }
+    .icon_buttons {
+        width: 3;
+        margin: 0 1 0 0;
+        min-width: 6;
+    }
+    .siemens_panel {
+        height: auto;
+        Horizontal {
+            border: red;
+            content-align: center middle;
+            height: 5;
+            width: 100;
+            /*      background: white;*/
+            Static {
+                height: 3;
+                width: auto;
+                border: transparent;
+            }
+        }
+    }
+    .epi_panel {
+        height: 10;
+        Vertical {
+            background: white;
+        }
+        Horizontal {
+            border: red;
+            content-align: center middle;
+            height: 5;
+            width: 100;
+            /*      background: white;*/
+            Static {
+                height: 3;
+                width: auto;
+                border: transparent;
+            }
+        }
+        #delete_button {
+            offset-x: 96;
+            min-width: 6;
+        }
+    }
+}
+
+#data_input_sucess {
+}

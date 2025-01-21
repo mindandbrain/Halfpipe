@@ -19,7 +19,7 @@ from .writer import FileWriter, PrintWriter, ReportErrorWriter
 
 
 async def listen(queue: Queue) -> None:
-    from halfpipe.logging.base import setup as setup_logging
+    from ..base import setup as setup_logging
 
     setup_logging(queue)
 

@@ -60,7 +60,7 @@ requirements:
     - pytest-timeout
     - pytest-xdist
     # experimental user interface
-    - textual==0.60.0
+    - textual==0.85.2
     - pytest-textual-snapshot
 
 test:

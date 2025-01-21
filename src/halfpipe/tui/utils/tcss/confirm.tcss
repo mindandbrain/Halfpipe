@@ -1,0 +1,91 @@
+Confirm {
+    height: auto;
+    width: auto;
+    #draggable_modal_screen_container_wrapper {
+        width: auto;
+        min-width: 50;
+        min-height: 15;
+        align: center middle;
+        WindowTitleBar {
+            dock: top;
+        }
+        .button_grid {
+            dock: bottom;
+        }
+    }
+    Static {
+        height: auto;
+        content-align: center middle;
+        text-style: bold;
+        text-align: center;
+        width: auto;
+        margin: 1 1 1 1;
+    }
+    Horizontal {
+        height: auto;
+        width: 100%;
+        align: right top;
+        offset-x: 0;
+        Button {
+            margin: 0 1;
+        }
+    }
+    .window_title {
+        height: auto;
+        text-align: left;
+    }
+}
+
+.confirm_success {
+    #draggable_modal_screen_container_wrapper {
+        border-left: thick $success;
+        border-right: thick $success;
+        border-bottom: thick $success;
+    }
+    WindowTitleBar {
+        background: $success;
+    }
+    WindowTitleBar Button {
+        background: $success;
+    }
+    .window_title {
+        color: black;
+        height: auto;
+    }
+}
+
+.confirm_warning {
+    #draggable_modal_screen_container_wrapper {
+        border-left: thick $warning;
+        border-right: thick $warning;
+        border-bottom: thick $warning;
+    }
+    WindowTitleBar {
+        background: $warning;
+    }
+    WindowTitleBar Button {
+        background: $warning;
+    }
+    .window_title {
+        color: black;
+        height: auto;
+    }
+}
+
+.confirm_error {
+    #draggable_modal_screen_container_wrapper {
+        border-left: thick $error;
+        border-right: thick $error;
+        border-bottom: thick $error;
+    }
+    WindowTitleBar {
+        background: $error;
+    }
+    WindowTitleBar Button {
+        background: $error;
+    }
+    .window_title {
+        color: black;
+        height: auto;
+    }
+}

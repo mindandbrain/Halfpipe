@@ -71,7 +71,7 @@ class DatabaseMetadataLoader(Loader):
                 try:
                     spreadsheet = read_spreadsheet(slice_timing_file)
                     valuearray = np.ravel(spreadsheet.values).astype(np.float64)
-                    value = list(valuearray.tolist())
+                    value = list(valuearray)
                 except Exception as e:
                     logger.warning(
                         f'Ignored exception when loading slice_timing_file "{slice_timing_file}":',

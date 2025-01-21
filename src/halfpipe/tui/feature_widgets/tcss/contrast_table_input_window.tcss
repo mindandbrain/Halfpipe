@@ -1,0 +1,38 @@
+ContrastTableInputWindow {
+    #button_panel {
+        dock: bottom;
+        height: auto;
+        width: 38;
+
+        align: right top;
+        padding: 1 0 0 0;
+        offset-x: -5;
+    }
+    #contrast_name {
+        width: 42;
+        offset-x: 3;
+        margin: 1;
+    }
+    .row_element {
+        layout: grid;
+        align: center middle;
+        grid-size: 2;
+        height: 3;
+        width: 50;
+        /*  border: thick solid green;*/
+    }
+    .input_values {
+        padding: 0 1;
+        width: 15;
+        height: 3;
+    }
+    Label {
+        text-style: bold;
+        height: 3;
+        content-align: left middle;
+    }
+    Button {
+        width: 10;
+        margin: 0 1;
+    }
+}

@@ -1,0 +1,71 @@
+MainApp {
+    Screen {
+        align: center middle;
+    }
+    #welcome_image {
+        width: 108;
+        height: 46;
+        background: white;
+    }
+    #file_browser_tab {
+        align: center top;
+    }
+    HeaderTitle {
+        text-style: bold;
+    }
+    Header {
+        height: 3;
+        background: $accent;
+    }
+    Tab {
+        width: auto;
+        height: 2;
+        padding: 1 1 0 2;
+        text-align: center;
+        /*  color: 60% red;*/
+    }
+    Tab.-active {
+        text-style: bold;
+        color: $text;
+        background: $accent;
+    }
+    .tabs {
+        border: thick $accent;
+    }
+    .tabs2 {
+        padding: 0 0 0 0;
+    }
+    Tab.-hidden {
+        display: none;
+        background: red;
+    }
+}
+
+#confirm_unlocking {
+    #draggable_modal_screen_container_wrapper {
+        width: 45;
+        height: 15;
+        background: black;
+    }
+    Static {
+        height: 5;
+    }
+    .window_title {
+        color: black;
+        height: auto;
+    }
+}
+
+.error_modal {
+    Vertical {
+        border-left: thick $error;
+        border-right: thick $error;
+        border-bottom: thick $error;
+    }
+    WindowTitleBar {
+        background: $error;
+    }
+    WindowTitleBar Button {
+        background: $error;
+    }
+}

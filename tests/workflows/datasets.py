@@ -3,6 +3,7 @@
 # vi: set ft=python sts=4 ts=4 sw=4 et:
 
 
+import os
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -32,8 +33,19 @@ class Dataset:
 
     def download(self, tmp_path: Path) -> File:
         ds = dl.clone(source=self.url, path=str(tmp_path))
+        all_files = ds.repo.get_content_info()
+
         for path in self.paths:
-            ds.get(path)
+            if "*" in path:
+                if not path.startswith("*"):
+                    path = os.path.join(str(tmp_path).replace(".", ""), path)
+                #                print(path, path.replace('*',''))
+                found_paths = [file for file in list(all_files.keys()) if path.replace("*", "") in str(file)]
+                for p in found_paths:
+                    print(p)
+                    ds.get(p)
+            else:
+                ds.get(path)
         return FileSchema().load(dict(datatype="bids", path=str(tmp_path)))
 
     def download_openneuro(self, tmp_path: Path) -> File:

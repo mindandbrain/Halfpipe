@@ -1,0 +1,73 @@
+MultipleRadioSet {
+    height: auto;
+    width: auto;
+    MultipleRadioSet {
+        height: auto;
+        width: auto;
+    }
+    #h_label_container {
+        height: auto;
+
+        width: auto;
+    }
+    RadioButton {
+        border-right: solid white;
+    }
+    .v_labels {
+        border-right: solid white;
+        background: $accent-lighten-3;
+    }
+    .h_labels {
+        border-right: solid white;
+        background: $accent-lighten-3;
+    }
+    RadioSet {
+        border: none;
+    }
+    .radio_table_rows {
+        height: auto;
+        width: auto;
+    }
+    #label_container {
+        height: auto;
+    }
+}
+
+MultipleRadioSetModal {
+    border: solid red;
+    #draggable_modal_screen_container_wrapper {
+        width: auto;
+    }
+    #outer_table_container {
+        height: auto;
+        width: auto;
+        border: solid transparent;
+        offset-x: 3;
+        max-width: 150;
+        max-height: 100;
+        scrollbar-gutter: stable;
+    }
+    #instructions {
+        border: solid transparent;
+    }
+    Static {
+        height: auto;
+        content-align: center middle;
+        text-style: bold;
+        text-align: center;
+        width: auto;
+    }
+    .window_title {
+        height: auto;
+        text-align: left;
+        offset-y: 1;
+    }
+    .button_grid {
+        align: right top;
+        height: auto;
+        width: 100%;
+    }
+    Button {
+        offset-x: 0;
+    }
+}

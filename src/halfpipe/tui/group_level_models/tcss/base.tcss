@@ -1,0 +1,73 @@
+GroupLevelModelSelection {
+    #sidebar {
+        dock: left;
+        width: 40;
+        height: 1fr;
+        border: thick $accent;
+        background: $panel;
+        padding: -1 0 0 0;
+        Grid {
+            padding: 1;
+            align: center top;
+            dock: top;
+            grid-size: 2 3;
+            grid-gutter: 1 0;
+            height: 13;
+            /*border-bottom: thick $accent;*/
+            /*border-bottom: thick $accent;*/
+            background: $accent;
+        }
+    }
+    #list {
+        align: left top;
+        width: 100%;
+        column-span: 2;
+        row-span: 1;
+        text-style: bold;
+        height: auto;
+    }
+    ListView > ListItem.--highlight {
+        background: grey 50%;
+    }
+    ListView:focus > ListItem.--highlight {
+        background: grey;
+    }
+    #content_switcher {
+        background: $panel;
+        border: thick $accent;
+        border-title-background: $accent;
+        border-title-color: white;
+        border-title-style: bold;
+    }
+    ContentSwitcher {
+        width: 100%;
+        height: 1fr;
+    }
+    Label {
+        margin: 1 1 1 1;
+    }
+    Button {
+        margin: 0 0 0 0;
+    }
+    .task_based {
+        color: crimson;
+    }
+    .seed_based_connectivity {
+        color: silver;
+    }
+    .dual_regression {
+        color: ansi_bright_cyan;
+    }
+    .atlas_based_connectivity {
+        color: blueviolet;
+    }
+    .reho {
+        color: slategray;
+    }
+    .falff {
+        color: magenta;
+    }
+    .preprocessed_image {
+        color: white;
+    }
+}

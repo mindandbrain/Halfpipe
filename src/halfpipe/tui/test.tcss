@@ -1,0 +1,5 @@
+#topfilebrowser {
+    align: center top;
+    content-align: center middle;
+    background: blue;
+}

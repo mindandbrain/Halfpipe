@@ -1,0 +1,24 @@
+EditFeatures {
+    align: center middle;
+    #feature_name_input_screen {
+        align: center top;
+        border: thick $accent;
+        width: 60;
+        height: 9;
+        .feature_name {
+            height: 3;
+            padding: 0 1 0 1;
+        }
+        .button_grid {
+            grid-size: 3;
+            grid-gutter: 1;
+            padding: 1 1 0 0;
+            .ok_button {
+                width: 100;
+            }
+        }
+        .button {
+            width: 100;
+        }
+    }
+}

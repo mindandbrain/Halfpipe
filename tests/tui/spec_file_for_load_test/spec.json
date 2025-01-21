@@ -1,0 +1,414 @@
+{
+    "halfpipe_version": "unknown",
+    "schema_version": "3.0",
+    "timestamp": "2024-12-10_16-24",
+    "global_settings": {
+        "dummy_scans": 9,
+        "slice_timing": true,
+        "use_bbr": null,
+        "skull_strip_algorithm": "ants",
+        "run_mriqc": false,
+        "run_fmriprep": true,
+        "run_halfpipe": true,
+        "fd_thres": 0.5,
+        "anat_only": false,
+        "write_graph": false,
+        "hires": false,
+        "run_reconall": false,
+        "t2s_coreg": false,
+        "medial_surface_nan": false,
+        "bold2t1w_dof": 9,
+        "fmap_bspline": true,
+        "force_syn": false,
+        "longitudinal": false,
+        "regressors_all_comps": false,
+        "regressors_dvars_th": 1.5,
+        "regressors_fd_th": 0.5,
+        "skull_strip_fixed_seed": false,
+        "skull_strip_template": "OASIS30ANTs",
+        "run_aroma": true,
+        "aroma_err_on_warn": false,
+        "aroma_melodic_dim": -200,
+        "sloppy": false
+    },
+    "files": [
+        {
+            "path": "/tmp/tui_test/ds002785/sub-{sub}/anat/sub-{sub}_T1w.nii.gz",
+            "datatype": "anat",
+            "suffix": "T1w",
+            "extension": ".nii.gz",
+            "tags": {}
+        },
+        {
+            "path": "/tmp/tui_test/ds002785/sub-{sub}/func/sub-{sub}_task-{task}_bold.nii.gz",
+            "datatype": "func",
+            "suffix": "bold",
+            "extension": ".nii.gz",
+            "tags": {},
+            "metadata": {
+                "repetition_time": 9.0,
+                "slice_timing_code": "sequential increasing"
+            }
+        },
+        {
+            "path": "/tmp/tui_test/ds002785/sub-{sub}/func/sub-{sub}_task-{task}_events.tsv",
+            "datatype": "func",
+            "suffix": "events",
+            "tags": {},
+            "extension": ".tsv",
+            "metadata": {}
+        },
+        {
+            "path": "/tmp/tui_test/atlases_maps_seed_images/tpl-MNI152NLin2009cAsym_atlas-{desc}.nii",
+            "datatype": "ref",
+            "suffix": "atlas",
+            "extension": ".nii",
+            "tags": {},
+            "metadata": {
+                "space": "MNI152NLin6Asym"
+            }
+        },
+        {
+            "path": "/tmp/tui_test/atlases_maps_seed_images/{desc}_seed_2009.nii.gz",
+            "datatype": "ref",
+            "suffix": "seed",
+            "extension": ".nii.gz",
+            "tags": {},
+            "metadata": {
+                "space": "MNI152NLin6Asym"
+            }
+        },
+        {
+            "path": "/tmp/tui_test/atlases_maps_seed_images/FIND_{desc}_maps_2009.nii.gz",
+            "datatype": "ref",
+            "suffix": "map",
+            "extension": ".nii.gz",
+            "tags": {},
+            "metadata": {}
+        }
+    ],
+    "settings": [
+        {
+            "ica_aroma": true,
+            "smoothing": {
+                "fwhm": 96.0
+            },
+            "grand_mean_scaling": {
+                "mean": 10000.0
+            },
+            "bandpass_filter": {
+                "type": "gaussian",
+                "hp_width": 9125.0,
+                "lp_width": 90.0
+            },
+            "confounds_removal": [
+                "(trans|rot)_[xyz]",
+                "(trans|rot)_[xyz]_derivative1",
+                "(trans|rot)_[xyz]_power2",
+                "(trans|rot)_[xyz]_derivative1_power2",
+                "a_comp_cor_0[0-4]",
+                "white_matter",
+                "csf",
+                "global_signal"
+            ],
+            "name": "taskBased1Setting",
+            "filters": [
+                {
+                    "type": "tag",
+                    "action": "include",
+                    "entity": "task",
+                    "values": [
+                        "anticipation_acq-seq"
+                    ]
+                }
+            ],
+            "output_image": false
+        },
+        {
+            "ica_aroma": false,
+            "grand_mean_scaling": {
+                "mean": 10000.0
+            },
+            "bandpass_filter": {
+                "type": "frequency_based",
+                "low": 0.091,
+                "high": 0.91
+            },
+            "confounds_removal": [
+                "(trans|rot)_[xyz]"
+            ],
+            "name": "corrMatrix1Setting",
+            "filters": [],
+            "output_image": false
+        },
+        {
+            "ica_aroma": false,
+            "grand_mean_scaling": {
+                "mean": 10000.0
+            },
+            "bandpass_filter": {
+                "type": "frequency_based",
+                "low": 0.01,
+                "high": 0.1
+            },
+            "confounds_removal": [
+                "(trans|rot)_[xyz]"
+            ],
+            "name": "fAlff1Setting",
+            "filters": [],
+            "output_image": false
+        },
+        {
+            "ica_aroma": false,
+            "grand_mean_scaling": {
+                "mean": 10000.0
+            },
+            "confounds_removal": [
+                "(trans|rot)_[xyz]"
+            ],
+            "name": "fALFF1UnfilteredSetting",
+            "filters": [],
+            "output_image": false
+        },
+        {
+            "ica_aroma": false,
+            "smoothing": {
+                "fwhm": 96.0
+            },
+            "grand_mean_scaling": {
+                "mean": 12345.0
+            },
+            "bandpass_filter": {
+                "type": "gaussian",
+                "hp_width": 9125.0,
+                "lp_width": 90.0
+            },
+            "confounds_removal": [
+                "(trans|rot)_[xyz]"
+            ],
+            "name": "preproc_1",
+            "filters": [],
+            "output_image": true
+        },
+        {
+            "ica_aroma": true,
+            "smoothing": {
+                "fwhm": 96.0
+            },
+            "grand_mean_scaling": {
+                "mean": 10000.0
+            },
+            "confounds_removal": [
+                "(trans|rot)_[xyz]"
+            ],
+            "name": "seedCorr1Setting",
+            "filters": [],
+            "output_image": false
+        },
+        {
+            "ica_aroma": true,
+            "grand_mean_scaling": {
+                "mean": 10000.0
+            },
+            "bandpass_filter": {
+                "type": "gaussian",
+                "hp_width": 125.0,
+                "lp_width": null
+            },
+            "confounds_removal": [
+                "(trans|rot)_[xyz]"
+            ],
+            "name": "dualReg1Setting",
+            "filters": [],
+            "output_image": false
+        },
+        {
+            "ica_aroma": true,
+            "grand_mean_scaling": {
+                "mean": 10000.0
+            },
+            "bandpass_filter": {
+                "type": "frequency_based",
+                "low": 0.01,
+                "high": 0.1
+            },
+            "confounds_removal": [
+                "(trans|rot)_[xyz]"
+            ],
+            "name": "reHo1Setting",
+            "filters": [
+                {
+                    "type": "tag",
+                    "action": "include",
+                    "entity": "task",
+                    "values": [
+                        "restingstate_acq-mb3",
+                        "workingmemory_acq-seq"
+                    ]
+                }
+            ],
+            "output_image": false
+        },
+        {
+            "ica_aroma": false,
+            "grand_mean_scaling": {
+                "mean": 10000.0
+            },
+            "bandpass_filter": {
+                "type": "gaussian",
+                "hp_width": null,
+                "lp_width": null
+            },
+            "name": "taskBased2Setting",
+            "filters": [
+                {
+                    "type": "tag",
+                    "action": "include",
+                    "entity": "task",
+                    "values": [
+                        "workingmemory_acq-seq"
+                    ]
+                }
+            ],
+            "output_image": false
+        },
+        {
+            "ica_aroma": true,
+            "grand_mean_scaling": {
+                "mean": 10000.0
+            },
+            "bandpass_filter": {
+                "type": "frequency_based",
+                "low": 0.01,
+                "high": 0.1
+            },
+            "confounds_removal": [
+                "(trans|rot)_[xyz]"
+            ],
+            "name": "fAlff2Setting",
+            "filters": [
+                {
+                    "type": "tag",
+                    "action": "include",
+                    "entity": "task",
+                    "values": [
+                        "anticipation_acq-seq"
+                    ]
+                }
+            ],
+            "output_image": false
+        },
+        {
+            "ica_aroma": true,
+            "grand_mean_scaling": {
+                "mean": 10000.0
+            },
+            "confounds_removal": [
+                "(trans|rot)_[xyz]"
+            ],
+            "name": "fALFF2UnfilteredSetting",
+            "filters": [
+                {
+                    "type": "tag",
+                    "action": "include",
+                    "entity": "task",
+                    "values": [
+                        "anticipation_acq-seq"
+                    ]
+                }
+            ],
+            "output_image": false
+        }
+    ],
+    "features": [
+        {
+            "name": "taskBased_1",
+            "setting": "taskBased1Setting",
+            "type": "task_based",
+            "conditions": [
+                "cue_negative",
+                "img_neutral"
+            ],
+            "contrasts": [
+                {
+                    "type": "t",
+                    "name": "contrast1",
+                    "values": {
+                        "cue_negative": 9.0,
+                        "img_neutral": 9.0
+                    }
+                }
+            ],
+            "high_pass_filter_cutoff": 9125.0,
+            "hrf": "dgamma"
+        },
+        {
+            "name": "corrMatrix_1",
+            "setting": "corrMatrix1Setting",
+            "type": "atlas_based_connectivity",
+            "atlases": [
+                "brainnetomeCombined_dseg"
+            ],
+            "min_region_coverage": 0.98
+        },
+        {
+            "name": "fALFF_1",
+            "setting": "fAlff1Setting",
+            "type": "falff",
+            "smoothing": {
+                "fwhm": 96.0
+            },
+            "unfiltered_setting": "fALFF1UnfilteredSetting"
+        },
+        {
+            "name": "seedCorr_1",
+            "setting": "seedCorr1Setting",
+            "type": "seed_based_connectivity",
+            "seeds": [
+                "R_vlPFC_pt",
+                "R_vmPFC"
+            ],
+            "min_seed_coverage": 0.98
+        },
+        {
+            "name": "dualReg_1",
+            "setting": "dualReg1Setting",
+            "type": "dual_regression",
+            "maps": [
+                "ica"
+            ]
+        },
+        {
+            "name": "reHo_1",
+            "setting": "reHo1Setting",
+            "type": "reho"
+        },
+        {
+            "name": "taskBased_2",
+            "setting": "taskBased2Setting",
+            "type": "task_based",
+            "conditions": [
+                "active_nochange",
+                "passive"
+            ],
+            "contrasts": [
+                {
+                    "type": "t",
+                    "name": "contrast1",
+                    "values": {
+                        "active_nochange": 9.0,
+                        "passive": 9.0
+                    }
+                }
+            ],
+            "hrf": "dgamma"
+        },
+        {
+            "name": "fALFF_2",
+            "setting": "fAlff2Setting",
+            "type": "falff",
+            "unfiltered_setting": "fALFF2UnfilteredSetting"
+        }
+    ],
+    "models": []
+}

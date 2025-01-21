@@ -1,0 +1,76 @@
+WorkDirectory {
+    align: center top;
+    #work_directory {
+        align: left top;
+        height: auto;
+        grid-size: 1;
+        #description {
+            height: 4;
+            padding: 1;
+            text-align: justify;
+        }
+        #work_dir_file_browser {
+            border: solid red;
+        }
+    }
+    #top_event_file_panel {
+        height: auto;
+        align: center top;
+    }
+    .file_panel {
+        border: none;
+        align: left top;
+        background: transparent;
+        width: 110;
+        height: auto;
+
+        Button {
+            width: auto;
+            height: 3;
+            margin: 1 0 0 1;
+        }
+        FileItem {
+            layout: horizontal;
+            height: 5;
+            border: red;
+            .icon_buttons {
+                width: 3;
+                height: 3;
+                margin: 0 1 0 0;
+                min-width: 6;
+                offset-y: 0;
+            }
+            #static_file_pattern {
+                width: auto;
+                padding: 1;
+                color: white;
+            }
+            #icon_buttons_container {
+                width: auto;
+                height: 4;
+                border: none;
+                padding: 0 1;
+            }
+        }
+    }
+}
+
+#confirm_spec_load_modal {
+    #confirm_screen {
+        width: 45;
+        height: 10;
+    }
+    #draggable_modal_screen_container_wrapper {
+        width: 45;
+        height: 13;
+        background: black;
+    }
+}
+
+#confirm_override_spec_file_modal {
+    #draggable_modal_screen_container_wrapper {
+        width: 45;
+        height: 13;
+        background: black;
+    }
+}

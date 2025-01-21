@@ -240,12 +240,15 @@ class Database:
         else:
             return set(self.filepaths_by_tags[entity].keys())
 
-    def multitagvalset(self, entitylist, filepaths=None, prune=True):
+    def multitagvalset(self, entitylist, filepaths=None, prune=True, min_set_size=1):
+        # Tomas added this: min_set_size because in the new UI in a special case when there is just one task
+        # the output of this function is just empty list and hence there are no images for the selection panel
+        # and everything then breaks. In the new UI this value is overridden to '0'.
         if prune:
             pruned_entitylist = []
             for entity in entitylist:
                 tagval_set = self.tagvalset(entity, filepaths=filepaths)
-                if tagval_set is not None and len(tagval_set) > 1:
+                if tagval_set is not None and len(tagval_set) > min_set_size:
                     pruned_entitylist.append(entity)
             entitylist = pruned_entitylist
 

@@ -1,0 +1,38 @@
+ModelConditionsAndContrasts {
+    #model_conditions_selection {
+        width: 50;
+        text-style: bold;
+        color: white;
+        margin: 1 0 0 0;
+        border: thick green;
+    }
+    #contrast_table {
+        scrollbar-gutter: stable;
+        .datatable--header {
+            color: white;
+            text-style: bold italic;
+            background: black 70%;
+        }
+        .datatable--even-row {
+            background: grey;
+        }
+        .datatable--odd-row {
+            background: grey 70%;
+        }
+    }
+    #contrast_table_upper {
+        /*width: auto;*/
+
+        content-align: center middle;
+        border: solid;
+        padding: 1;
+    }
+    #button_panel {
+        align: right top;
+        height: 5;
+        Button {
+            margin: 0 1;
+            width: 25;
+        }
+    }
+}

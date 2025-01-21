@@ -119,8 +119,8 @@ class ConditionFile:
             coerce[:, 1] = duration
 
             self.conditions.append(condition)
-            self.onsets.append(coerce[:, 0].tolist())
-            self.durations.append(coerce[:, 1].tolist())
+            self.onsets.append(list(coerce[:, 0]))
+            self.durations.append(list(coerce[:, 1]))
 
     def parse_txt(self, condition: str, path: Path | str) -> None:
         self.conditions.append(condition)

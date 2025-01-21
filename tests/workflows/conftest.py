@@ -25,8 +25,8 @@ from ..resource import setup as setup_test_resources
 from .spec import make_spec
 
 
-@pytest.fixture(scope="package")
-def bids_data(tmp_path_factory):
+@pytest.fixture(scope="session")
+def bids_data(tmp_path_factory) -> Path:
     tmp_path = tmp_path_factory.mktemp(basename="bids_data")
 
     os.chdir(str(tmp_path))
@@ -52,7 +52,7 @@ def bids_data(tmp_path_factory):
     return bids_data_path
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="session")
 def mock_task_events(tmp_path_factory, bids_data) -> File:
     tmp_path = tmp_path_factory.mktemp(basename="task_events")
 
@@ -119,7 +119,7 @@ def mock_task_events(tmp_path_factory, bids_data) -> File:
     )
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="session")
 def atlas_harvard_oxford(tmp_path_factory) -> dict[str, Path]:
     tmp_path = tmp_path_factory.mktemp(basename="pcc_mask")
 
@@ -138,7 +138,7 @@ def atlas_harvard_oxford(tmp_path_factory) -> dict[str, Path]:
     return maps
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="session")
 def pcc_mask(tmp_path_factory, atlas_harvard_oxford: dict[str, Path]) -> Path:
     tmp_path = tmp_path_factory.mktemp(basename="pcc_mask")
 

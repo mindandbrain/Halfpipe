@@ -125,7 +125,7 @@ def t_ols_contrast(
     t = cope / np.sqrt(var_cope)
     z = t2z_convert(t, degrees_of_freedom)
 
-    return TContrastResult(cope, var_cope, t, z)
+    return TContrastResult(float(cope), float(var_cope), t, z)
 
 
 class FContrastResult(NamedTuple):
@@ -143,12 +143,12 @@ def f_ols_contrast(
     denominator_degrees_of_freedom: int,
     f_contrast: npt.NDArray[np.float64],
 ):
-    cope = (f_contrast @ regression_weights).ravel()
+    cope = (f_contrast @ regression_weights).ravel().astype(np.float64)
 
     a = f_contrast @ np.linalg.lstsq(gram_matrix, f_contrast.T, rcond=None)[0]
-    var_cope = np.diag(a)
+    var_cope = np.diag(a).astype(np.float64)
 
-    t = cope / np.sqrt(var_cope)
+    t = (cope / np.sqrt(var_cope)).astype(np.float64)
     b = np.linalg.lstsq(a, cope, rcond=None)[0]
     f = float(cope.T @ b) / numerator_degrees_of_freedom
     z = f2z_convert(f, numerator_degrees_of_freedom, denominator_degrees_of_freedom)

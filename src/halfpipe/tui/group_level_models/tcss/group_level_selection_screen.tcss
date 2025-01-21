@@ -1,0 +1,35 @@
+GroupLevelModelSelectionScreen {
+    #draggable_modal_screen_container_wrapper {
+        width: 50;
+        height: 15;
+        min-width: 50;
+        min-height: 15;
+
+        WindowTitleBar {
+            dock: top;
+        }
+    }
+    OptionList {
+        width: 100%;
+        height: 7;
+        text-style: bold;
+    }
+    /*
+    OptionList > .option-list--separator {
+        color: white;
+    }
+    OptionList > .option-list--option-hover {
+        background: $accent;
+    }
+*/
+    Button {
+        width: 10;
+    }
+    #botton_container {
+        padding: 1;
+        width: 100%;
+        height: 5;
+
+        align: center top;
+    }
+}

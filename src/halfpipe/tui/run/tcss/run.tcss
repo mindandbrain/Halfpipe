@@ -1,0 +1,10 @@
+RunCLX {
+    Button {
+        margin: 0 1 0 0;
+    }
+    Horizontal {
+        dock: top;
+        height: auto;
+        align: center top;
+    }
+}

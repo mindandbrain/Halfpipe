@@ -11,6 +11,7 @@ RUN conda config --system --set remote_max_retries 8 \
     --set remote_connect_timeout_secs 60 \
     --set remote_read_timeout_secs 240
 RUN conda install --yes "conda-build"
+RUN conda install --yes "setuptools"
 
 RUN cat <<EOF > "/usr/bin/retry"
 #!/bin/bash

@@ -103,6 +103,7 @@ def build_parser() -> ArgumentParser:
     debuggroup.add_argument("--debug", action="store_true", default=False)
     debuggroup.add_argument("--profile", action="store_true", default=False)
     debuggroup.add_argument("--watchdog", action="store_true", default=False)
+    debuggroup.add_argument("--tui", action="store_true", default=False)
 
     subparsers = parser.add_subparsers(dest="command")
     commands: list[Command] = [
