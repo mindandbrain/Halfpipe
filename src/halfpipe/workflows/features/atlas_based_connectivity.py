@@ -26,8 +26,79 @@ def init_atlas_based_connectivity_wf(
     memcalc: MemoryCalculator | None = None,
 ) -> pe.Workflow:
     """
-    create workflow for brainatlas
+    Sets up a workflow that is able to perform atlas-based functional connectivity analysis.
+    The workflow goes through the following steps by connecting operations in nodes:
+    1 Create a resultdict for each atlas (node: `make_resultdicts`)
+    2. Use preprocessed bold image to calculate time-course signal-to-noise ratio (SNR) (node: `tsnr`)
+    3. Resample atlas files to the reference space and resolution (node: `resample`)
+    4. Compute the mean time-course SNR for each resampled atlas (node: `calcmean`)
+    5. Calculate the functional connectivity metrics based on the resampled atlas (node: `connectivitymeasure`)
+    6. Save the resultdicts to disk (node: `resultdict_datasink`)
+    7. Return the resultdicts (node: `outputnode`)
 
+    Parameters
+    ----------
+    workdir : str or Path
+        The working directory where all intermediate and output files will be stored.
+    feature : feature object, optional
+        A feature object containing the atlases to be used in the analysis, by default None.
+    atlas_files : list of Path
+        The paths to the atlas files containing the regions of interest for the analysis, by default None.
+    atlas_spaces : list of str
+        Specific atlas coordinate spaces to be used in the analysis, by default None.
+    memcalc : MemoryCalculator, optional
+        A memory calculator object for estimating and managing memory usage, by default MemoryCalculator.default().
+
+    Inputs
+    ------
+    tags : list of str
+        Tags for grouping and identifying features in the result dictionary.
+    vals : list of str
+        Values associated with the tags.
+    metadata : dict
+        Metadata information related to the input data.
+    bold : NIfTI image
+        Preprocessed BOLD fMRI image.
+    mask : NIfTI image
+        Brain mask for the BOLD image.
+    repetition_time : float
+        Repetition time of the BOLD acquisition.
+    atlas_names : list of str
+        Names of the atlases used in the analysis.
+    atlas_files : list of str or Path
+        Paths to the atlas files.
+    atlas_spaces : list of str
+        Coordinate spaces of the atlases.
+
+    Outputs
+    -------
+    timeseries : str or Path
+        String that points to a path with extracted time-series data (stored in timeseries.tsv)
+    covariance_matrix : str or Path
+        String that points to a path where the covariance matrix computed
+        from the time-series is written (stored in desc-covariance_matrix.tsv)
+    correlation_matrix :  str or Path
+        String that points to a path where the correlation matrix computed
+        from the time-series is written (stored in desc-correlation_matrix.tsv)
+    coverage : list of float
+        Computed region coverage information (stored in timeseries.json)
+    mean_atlas_tsnr : float or list of float
+        Mean time-course SNR for each atlas (stored timeseries.json)
+    atlas : list of str
+        Atlas names used in the analysis
+    metadata : dict
+        Metadata information related to the input data
+    sampling_frequency : float
+        Sampling frequency of the BOLD acquisition
+    tags : list of str
+        Tags for grouping and identifying features in the result dictionary
+    vals : list of str
+        Values associated with the tags
+
+    Returns
+    -------
+    workflow : pe.Workflow
+        A Nipype Workflow object configured for performing atlas-based functional connectivity analysis.
     """
     memcalc = MemoryCalculator.default() if memcalc is None else memcalc
     if feature is not None:
@@ -54,7 +125,7 @@ def init_atlas_based_connectivity_wf(
     )
     outputnode = pe.Node(niu.IdentityInterface(fields=["resultdicts"]), name="outputnode")
 
-    min_region_coverage = 1
+    min_region_coverage = 0
     if feature is not None:
         inputnode.inputs.atlas_names = feature.atlases
         if hasattr(feature, "min_region_coverage"):
@@ -83,6 +154,7 @@ def init_atlas_based_connectivity_wf(
     )
     if feature is not None:
         make_resultdicts.inputs.feature = feature.name
+
     workflow.connect(inputnode, "tags", make_resultdicts, "tags")
     workflow.connect(inputnode, "vals", make_resultdicts, "vals")
     workflow.connect(inputnode, "metadata", make_resultdicts, "metadata")
@@ -113,6 +185,7 @@ def init_atlas_based_connectivity_wf(
         iterfield=["atlas_file"],
         mem_gb=memcalc.series_std_gb,
     )
+
     workflow.connect(inputnode, "bold", connectivitymeasure, "in_file")
     workflow.connect(inputnode, "mask", connectivitymeasure, "mask_file")
     workflow.connect(resample, "output_image", connectivitymeasure, "atlas_file")
