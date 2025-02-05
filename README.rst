@@ -43,6 +43,8 @@ with HALFpipe.
    <https://docs.google.com/document/d/108-XBIuwtJziRVVdOQv73MRgtK78wfc-NnVu-jSc9oI/edit#heading=h.3y6rt7h7o483>`__
    should be able to answer most questions.
 
+   To cite this software in a publication, please see the `references <#references>`__ section of this document.
+
 *******************
  Table of Contents
 *******************
@@ -88,6 +90,8 @@ with HALFpipe.
    -  `Data file system root <#data-file-system-root>`__
 
 -  `Contact <#contact>`__
+
+-  `References <#references>`__
 
 .. raw:: html
 
@@ -240,7 +244,6 @@ shell environment by default, so we don’t need to pass an option.
  User interface
 ****************
 
-   Outdated
 
 The user interface asks a series of questions about your data and the
 analyses you want to run. In each question, you can press ``Control+C``
@@ -303,10 +306,16 @@ files are available in BIDS format, then this step can be skipped.
 
    -  ``Yes``
 
-      #. ``Check slice acquisition direction values``
-      #. ``Check slice timing values``
+      #. ``Check slice acquisition direction`` / ``Specify slice acquisition direction``
+      #. ``Check slice timing values`` / ``Specify slice timing``
 
    -  ``No`` Skip this step
+
+#. ``Remove initial volumes from scans?``
+
+   -  ``Enter number of volumes to remove``
+
+   -  ``Detect non-steady state via algorithm``
 
 #. ``Specify field maps?`` If the data was imported from a BIDS
    directory, this step will be omitted.
@@ -335,10 +344,11 @@ files are available in BIDS format, then this step can be skipped.
 
       #. ``Add more field maps?`` Loop back to 1
 
-      #. ``Specify effective echo spacing for the functional data in
-         seconds``
+      #. ``Assign field maps to functional images``
 
-      #. ``Specify phase encoding direction for the functional data``
+      #. ``Check phase encoding direction values for the functional data`` / ``Specify phase encoding direction for the functional data``
+
+      #. ``Check effective echo spacing for the functional data in seconds`` / ``Specify effective echo spacing for the functional data in seconds``
 
    -  ``No`` Skip this step
 
@@ -360,20 +370,11 @@ other words, first-level analyses.
             #. ``Specify images to use``
             #. ``Specify the event file type``
 
-            -  ``SPM multiple conditions`` A MATLAB .mat file containing
-               three arrays: ``names`` (condition), ``onsets`` and
-               ``durations``
+               -  ``SPM multiple conditions`` A MATLAB .mat file containing three arrays: ``names`` (condition), ``onsets`` and ``durations``
 
-            -  ``FSL 3-column`` One text file for each condition. Each
-               file has its corresponding condition in the filename. The
-               first column specifies the event onset, the second the
-               duration. The third column of the files is ignored, so
-               parametric modulation is not supported
+               -  ``FSL 3-column`` One text file for each condition. Each file has its corresponding condition in the filename. The first column specifies the event onset, the second the duration. The third column of the files is ignored, so parametric modulation is not supported
 
-            -  ``BIDS TSV`` A tab-separated table with named columns
-               ``trial_type`` (condition), ``onset`` and ``duration``.
-               While BIDS supports defining additional columns,
-               ``HALFpipe`` will currently ignore these
+               -  ``BIDS TSV`` A tab-separated table with named columns ``trial_type`` (condition), ``onset`` and ``duration``. While BIDS supports defining additional columns, ``HALFpipe`` will currently ignore these
 
             #. ``Specify the path of the event files``
 
@@ -424,32 +425,188 @@ other words, first-level analyses.
 
                #. ``Specify the path of the binary seed mask image
                   files``
+
+                  -  ``Specify the seed name``
+
                #. ``Check space values``
-               #. ``Add binary seed mask image file``
+               #. ``Specify binary seed mask file(s)``
+
+                  -  ``Load another binary seed mask image file``
+               #. ``Specify minimum seed coverage by individual brain mask`` Functional images that do not meet the requirement will be skipped
+
+            #. ``Specify preprocessing setting``
+
+            #. ``Apply smoothing``
+
+               -  ``Yes``
+
+                  #. ``Specify smoothing FWHM in mm``
+
+               -  ``No`` Continue
+
+            #. ``Grand mean scaling will be applied with a mean of
+               10000.000000``
+
+            #. ``Apply a temporal filter?``
+
+               -  ``Yes``
+
+                  #. ``Specify the type of temporal filter``
+
+                     -  ``Gaussian-weighted``
+
+                        #. ``Specify the filter width in seconds``
+
+                           #. ``Low-pass width``
+
+                           #. ``High-pass width``
+
+                     -  ``Frequency-based``
+
+                        #. ``Specify the filter cutoff frequencies in Hz``
+
+                           #. ``Low cutoff``
+
+                           #. ``High cutoff``
+
+               -  ``No`` Continue
+
+            #. ``Remove confounds?``
 
          -  ``Dual regression``
 
             #. ``Specify feature name``
+
             #. ``Specify images to use``
-            #. TODO
+
+            #. ``Specify spatial map file(s)``
+
+               #. ``Specify the path of the spatial map image files``
+
+                  -  ``Specify the map name``
+
+               #. ``Check space values``
+               #. ``Specify spatial map file(s)``
+
+                  -  ``Load another spatial map image file``
+
+            #. ``Specify preprocessing setting``
+
+            #. ``Apply smoothing``
+
+               -  ``Yes``
+
+                  #. ``Specify smoothing FWHM in mm``
+
+               -  ``No`` Continue
+
+            #. ``Grand mean scaling will be applied with a mean of
+               10000.000000``
+
+            #. ``Temporal filtering will be applied using a gaussian-weighted filter``
+
+               #. ``Specify the filter width in seconds``
+
+                  #. ``Low-pass width``
+
+                  #. ``High-pass width``
+
+            #. ``Remove confounds?``
 
          -  ``Atlas-based connectivity matrix``
 
             #. ``Specify feature name``
+
             #. ``Specify images to use``
-            #. TODO
+
+            #. ``Specify atlas file(s)``
+
+               #. ``Specify the path of the atlas image files``
+
+                  -  ``Specify the atlas name``
+
+               #. ``Check space values``
+
+               #. ``Specify atlas file(s)``
+
+                  -  ``Load another atlas image file``
+
+               #. ``Specify minimum atlas region coverage by individual brain mask`` Atlas region signals that do not reach the requirement are set to n/a
+
+            #. ``Specify preprocessing setting``
+
+            #. ``No smoothing will be applied``
+
+            #. ``Grand mean scaling will be applied with a mean of
+               10000.000000``
+
+            #. ``Apply a temporal filter?``
+
+               -  ``Yes``
+
+                  #. ``Specify the type of temporal filter``
+
+                     -  ``Gaussian-weighted``
+
+                        #. ``Specify the filter width in seconds``
+
+                           #. ``Low-pass width``
+
+                           #. ``High-pass width``
+
+                     -  ``Frequency-based``
+
+                        #. ``Specify the filter cutoff frequencies in Hz``
+
+                           #. ``Low cutoff``
+
+                           #. ``High cutoff``
+
+               -  ``No`` Continue
+
+            #. ``Remove confounds?``
 
          -  ``ReHo``
 
             #. ``Specify feature name``
+
             #. ``Specify images to use``
-            #. TODO
+
+            #. ``Apply smoothing``
+
+               -  ``Yes``
+
+                  #. ``Specify smoothing FWHM in mm``
+
+               -  ``No`` Continue
+
+            #. ``Grand mean scaling will be applied with a mean of
+               10000.000000``
+
+            #. ``Temporal filtering will be applied using a frequency-based filter with a low cutoff of 0.01 Hz and a high cutoff of 0.1 Hz``
+
+            #. ``Remove confounds?``
 
          -  ``fALFF``
 
             #. ``Specify feature name``
+
             #. ``Specify images to use``
-            #. TODO
+
+            #. ``Apply smoothing``
+
+               -  ``Yes``
+
+                  #. ``Specify smoothing FWHM in mm``
+
+               -  ``No`` Continue
+
+            #. ``Grand mean scaling will be applied with a mean of
+               10000.000000``
+
+            #. ``Temporal filtering will be applied using a frequency-based filter with a low cutoff of 0.01 Hz and a high cutoff of 0.1 Hz``
+
+            #. ``Remove confounds?``
 
    -  ``No`` Skip this step
 
@@ -496,6 +653,7 @@ other words, first-level analyses.
       #. ``Remove confounds?``
 
    -  ``No`` Continue
+
 
 Models
 ======
@@ -847,3 +1005,11 @@ entire base system needed to run
 For questions or support, please submit an `issue
 <https://github.com/HALFpipe/HALFpipe/issues/new/choose>`__ or contact
 us via e-mail at enigma@charite.de.
+
+*********
+ References
+*********
+
+To cite HALFpipe, please refer to the `paper <https://doi.org/hmts>`__ as follows:
+
+    Waller, L., Erk, S., Pozzi, E., Toenders, Y. J., Haswell, C. C., Büttner, M., Thompson, P. M., Schmaal, L., Morey, R. A., Walter, H., & Veer, I. M. (2022). ENIGMA HALFpipe: Interactive, reproducible, and efficient analysis for resting-state and task-based fMRI data. Human brain mapping, 43(9), 2727–2742. https://doi.org/10.1002/hbm.25829
