@@ -28,7 +28,7 @@ class Keyboard:
         self.queue: SimpleQueue = SimpleQueue()
         self.state = ""
 
-    def __call__(self, c):
+    def __call__(self, c: int) -> None:
         if c == curses.ascii.ETX:  # ctrl-c
             self.queue.put_nowait(Key.Break)
         elif c == curses.ascii.EOT:  # ctrl-d

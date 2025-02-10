@@ -1,0 +1,13 @@
+diff --git a/nipype/interfaces/fsl/base.py b/nipype/interfaces/fsl/base.py
+index 61010ee9a..d8af034da 100644
+--- a/nipype/interfaces/fsl/base.py
++++ b/nipype/interfaces/fsl/base.py
+@@ -61,7 +61,7 @@ class Info(PackageInfo):
+     }
+
+     if os.getenv("FSLDIR"):
+-        version_file = os.path.join(os.getenv("FSLDIR"), "etc", "fslversion")
++        version_file = os.path.join(os.getenv("FSLDIR"), "bin", "fslversion")
+
+     @staticmethod
+     def parse_version(raw_info):

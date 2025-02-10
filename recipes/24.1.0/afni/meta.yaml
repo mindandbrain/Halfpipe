@@ -1,0 +1,174 @@
+{% set name = "afni" %}
+{% set version = "24.2.05" %}
+{% set sha = "31323b171ece3d6fcb5cc8915cf87006c6050e92" %}
+
+# Recipe taken from
+# https://github.com/unlhcc/hcc-conda-recipes/blob/master/recipes/afni/23.1.10/meta.yaml
+# Sha is from https://github.com/afni/afni/releases/tag/AFNI_24.2.05
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  url: "https://github.com/afni/afni/archive/refs/tags/{{ name|upper }}_{{ version }}.tar.gz"
+  sha: "{{ sha }}"
+  patches:
+    - 001-pip-install.patch
+    - 002-git-describe.patch
+    - 003-rwc-boolean-char.patch
+    - 004-suma-comm-struct.patch
+    - 005-suma-check-binary-linking-objdump.patch
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - "{{ compiler('c') }}"
+    - "{{ compiler('cxx') }}"
+    - "{{ cdt('mesa-libglu-devel') }}"
+    - cmake
+    - make
+  host:
+    - python 3.11
+    - zlib
+    - f2c
+    - expat
+    - gts
+    - freeglut # not in macos
+    - qhull
+    - dcm2niix
+    - "openmotif-dev>=2.3.8" # not in macos
+    - libglx-devel
+    - libjpeg-turbo
+    - libgl-devel
+    - glib
+    - gsl
+    - libglu
+    - xorg-libxpm # not in macos
+    - xorg-libxmu
+    - xorg-libxft
+    - xorg-libxt
+    - xorg-xorgproto
+    - libxml2
+    - icu
+  run:
+    - "openmotif>=2.3.8"
+    - libjpeg-turbo
+    - xorg-libxft
+    - libxml2
+    - icu
+    - xorg-libxpm
+
+outputs:
+  - name: afni-libznz
+    files:
+      - lib/libznz.so.*
+    requirements:
+      run:
+        - zlib
+  - name: afni-lib3dedge
+    files:
+      - lib/lib3DEdge.so
+  - name: afni-libeispack
+    files:
+      - lib/libeispack.so
+    requirements:
+      run:
+        - f2c
+  - name: afni-libnifti2
+    files:
+      - lib/libnifti2.so.*
+    requirements:
+      run:
+        - {{ pin_subpackage('afni-libznz', exact=True) }}
+  - name: afni-libgiftiio
+    files:
+      - lib/libgiftiio.so.*
+    requirements:
+      run:
+        - expat
+        - {{ pin_subpackage('afni-libnifti2', exact=True) }}
+  - name: afni-libnifticdf
+    files:
+      - lib/libnifticdf.so.*
+  - name: afni-libmri
+    files:
+      - lib/libmri.so
+    requirements:
+      run:
+        - {{ pin_subpackage('afni-lib3dedge', exact=True) }}
+        - {{ pin_subpackage('afni-libeispack', exact=True) }}
+        - {{ pin_subpackage('afni-libgiftiio', exact=True) }}
+        - {{ pin_subpackage('afni-libnifticdf', exact=True) }}
+  - name: afni-libtracktools
+    files:
+      - lib/libtrack_tools.so
+    requirements:
+      run:
+        - {{ pin_subpackage('afni-libmri', exact=True) }}
+        - gsl
+        - libopenblas
+  - name: afni-3dblurtofwhm
+    files:
+      - bin/3dBlurToFWHM
+    requirements:
+      run:
+        - {{ pin_subpackage('afni-libmri', exact=True) }}
+    test:
+      commands:
+        - 3dBlurToFWHM -help
+  - name: afni-3dcalc
+    files:
+      - bin/3dcalc
+    requirements:
+      run:
+        - {{ pin_subpackage('afni-libmri', exact=True) }}
+    test:
+      commands:
+        - 3dcalc -help
+  - name: afni-3dfwhmx
+    files:
+      - bin/3dFWHMx
+    requirements:
+      run:
+        - {{ pin_subpackage('afni-libmri', exact=True) }}
+    test:
+      commands:
+        - 3dFWHMx -help
+  - name: afni-3dreho
+    files:
+      - bin/3dReHo
+    requirements:
+      run:
+        - {{ pin_subpackage('afni-libtracktools', exact=True) }}
+    test:
+      commands:
+        - 3dReHo -help
+  - name: afni-3dtproject
+    files:
+      - bin/3dTproject
+    requirements:
+      run:
+        - {{ pin_subpackage('afni-libmri', exact=True) }}
+    test:
+      commands:
+        - 3dTproject -help
+  - name: afni-3dtstat
+    files:
+      - bin/3dTstat
+    requirements:
+      run:
+        - {{ pin_subpackage('afni-libmri', exact=True) }}
+    test:
+      commands:
+        - 3dTstat -help
+
+about:
+  home: https://afni.nimh.nih.gov/afni
+  summary: "AFNI is a suite of programs for looking at and analyzing 3D brain images."
+  license: GPL-2.0
+  license_family: GPL
+  license_file: doc/README/README.copyright
+  dev_url: https://github.com/afni/afni

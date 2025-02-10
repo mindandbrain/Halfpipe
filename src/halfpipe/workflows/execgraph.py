@@ -64,7 +64,7 @@ def filter_subjects(subjects: list[str], opts: Namespace) -> list[str]:
 
 
 def extract_subject_name(hierarchy):
-    m = re.fullmatch(r"single_subject_(?P<subjectname>.+)_wf", hierarchy[2])
+    m = re.fullmatch(r"sub_(?P<subjectname>.+)_wf", hierarchy[2])
     if m is not None:
         return m.group("subjectname")
 
@@ -178,7 +178,7 @@ def split_flat_graph(flat_graph: nx.DiGraph, base_dir: str) -> tuple[dict[str, s
         if subject_name is not None:
             subject_nodes[subject_name].add(node)
 
-    all_subject_nodes = set.union(*subject_nodes.values())
+    all_subject_nodes = set().union(*subject_nodes.values())
     non_subject_nodes = set(flat_graph.nodes) - all_subject_nodes
 
     resolve_input_boundary(flat_graph, non_subject_nodes)

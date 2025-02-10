@@ -1,0 +1,13 @@
+diff --git a/cmake/check_suma_binary_linking.sh b/cmake/check_suma_binary_linking.sh
+index b1a923571..3ca0d4dfb 100755
+--- a/cmake/check_suma_binary_linking.sh
++++ b/cmake/check_suma_binary_linking.sh
+@@ -7,7 +7,7 @@ SHLIB_EXT=.so
+ error_message="ERROR: The suma binary should dynamically link  Xm (Motif) and Xt (in that order). The --no-as-needed flag should be passed to the linker/ Please report this"
+ 
+ rm -f suma_binary_check_success.txt
+-objdump -p $suma_binary | grep libX > suma_x_libraries.txt
++${OBJDUMP} -p $suma_binary | grep libX > suma_x_libraries.txt
+ libs=$(cat suma_x_libraries.txt)
+ 
+ for lib in $libs;

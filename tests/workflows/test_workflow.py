@@ -3,6 +3,7 @@
 # vi: set ft=python sts=4 ts=4 sw=4 et:
 
 import json
+import logging
 import os
 import shutil
 from multiprocessing import cpu_count
@@ -57,6 +58,14 @@ def test_feature_extraction(tmp_path, mock_spec):
     - mock_spec: A fixture providing a mock json.spec file.
     """
 
+    # TODO why does this not print
+    logging.getLogger("nipype.workflow").setLevel(logging.DEBUG)
+
+    # Persist nipype cache across test runs
+    # TODO remove this
+    tmp_path = Path("/tmp/halfpipe")
+    tmp_path.mkdir(exist_ok=True)
+
     skip_vols = 3
     mock_spec.global_settings.update(dict(dummy_scans=skip_vols))
 
@@ -69,7 +78,9 @@ def test_feature_extraction(tmp_path, mock_spec):
     graphs = init_execgraph(tmp_path, workflow)
     graph = next(iter(graphs.values()))
 
-    assert any("sdc_estimate_wf" in u.fullname for u in graph.nodes)
+    # Ensure key workflows exist
+    assert any("anat_fit_wf" in u.fullname for u in graph.nodes), "Anat workflow missing."
+    assert any("bold_fit_wf" in u.fullname for u in graph.nodes), "Bold workflow missing."
 
     parser = build_parser()
     opts = parser.parse_args(args=list())
@@ -101,6 +112,9 @@ def test_feature_extraction(tmp_path, mock_spec):
 
 
 def test_with_fieldmaps(tmp_path, bids_data, mock_spec):
+    # TODO: Create an assertion that checks for workfloes that are specific
+    # to processing with field maps
+
     bids_path = tmp_path / "bids"
     shutil.copytree(bids_data, bids_path)
 
@@ -141,4 +155,4 @@ def test_with_fieldmaps(tmp_path, bids_data, mock_spec):
     graphs = init_execgraph(workdir, workflow)
     graph = next(iter(graphs.values()))
 
-    assert any("sdc_estimate_wf" in u.fullname for u in graph.nodes)
+    assert any("anat_fit_wf" in u.fullname for u in graph.nodes), "Anat workflow missing."

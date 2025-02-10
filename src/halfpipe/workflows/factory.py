@@ -12,6 +12,7 @@ from nipype.pipeline import engine as pe
 from ..fixes.workflows import IdentifiableWorkflow
 from ..ingest.bids import BidsDatabase
 from ..ingest.database import Database
+from ..logging import logger
 from ..model.spec import Spec
 from ..utils.format import format_like_bids
 
@@ -53,13 +54,17 @@ class Factory(ABC):
                 bids_subject_id = format_like_bids(subject_id)
 
         if bids_subject_id is not None:
-            return "single_subject_%s_wf" % bids_subject_id
+            return "sub_%s_wf" % bids_subject_id
+            # the naming has changed from single_subject_% to sub_% in fmriprep24
 
         return None
 
-    def _bold_wf_name(self, source_file):
+    def _bold_wf_name(self, source_file, prefix="bold"):
+        # New implementation by fmriprep requires passing a prefix
+        # since that is what fmriprep preprends to the bold workflows:
+        # https://github.com/nipreps/fmriprep/blob/73189de5ee576ffc73ab432b7419304d44ce5776/fmriprep/workflows/bold/base.py#L195
         bidspath = self.ctx.bids_database.to_bids(source_file)
-        return _get_wf_name(bidspath)
+        return _get_wf_name(bidspath, prefix)
 
     def _get_hierarchy(
         self,
@@ -69,6 +74,14 @@ class Factory(ABC):
         childname: str | None = None,
         create_ok: bool = True,
     ):
+        """
+        Retrieve or create a hierarchy of workflows.
+        This method builds a list of workflows starting from the main workflow in
+        the context (`ctx.workflow`), adding sub-workflows as needed based on the
+        `name`, `source_file`, `subject_id`, and `childname` arguments. It ensures
+        that each workflow exists, creating them if allowed (`create_ok=True`).
+        """
+
         hierarchy: list[pe.Workflow] = [self.ctx.workflow]
 
         def require_workflow(child_name):
@@ -123,7 +136,9 @@ class Factory(ABC):
         inputhierarchy = [*inputhierarchy]  # make copies
         outputhierarchy = [*outputhierarchy]
 
+        # The first element of both hierarchies needs to be the same
         assert outputhierarchy[0] == inputhierarchy[0]
+
         while outputhierarchy[1] == inputhierarchy[1]:
             inputhierarchy.pop(0)
             outputhierarchy.pop(0)
@@ -137,6 +152,11 @@ class Factory(ABC):
 
         outputendpoint = self._endpoint(outputhierarchy, outputnode, outattr)
         inputendpoint = self._endpoint(inputhierarchy, inputnode, inattr)
+
+        logger.warning(
+            f"Connecting output '{outattr}' from node '{outputnode.fullname}' "
+            f"to input '{inattr}' of node '{inputnode.fullname}'"
+        )
         workflow.connect(*outputendpoint, *inputendpoint)
 
     def connect(self, nodehierarchy, node, *args, **kwargs):

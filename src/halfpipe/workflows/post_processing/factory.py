@@ -202,6 +202,33 @@ class FmriprepAdapterFactory(LookupFactory):
     def _tpl(self, _) -> Hashable:
         return SettingTuple(value=None, suffix=None)
 
+    def _connect_inputs(self, hierarchy, inputnode, source_file, setting_name, lookup_tuple: LookupTuple):
+        super(FmriprepAdapterFactory, self)._connect_inputs(hierarchy, inputnode, source_file, setting_name, lookup_tuple)
+
+        resample_hierarchy = self._get_hierarchy("fmriprep_24_2_wf", source_file=source_file)
+        wf2 = resample_hierarchy[-1]
+        ds_bold_std_wf = wf2.get_node("ds_bold_std_wf")
+        bold_mask_std = ds_bold_std_wf.get_node("ds_mask")
+        bold_std = ds_bold_std_wf.get_node("ds_bold")
+
+        self.connect_attr(
+            outputhierarchy=[*resample_hierarchy, ds_bold_std_wf],  # [*resample_hierarchy, bold_std],
+            outputnode=bold_std,
+            outattr="out_file",  # Bold_file
+            inputhierarchy=hierarchy,
+            inputnode=inputnode,
+            inattr="bold_std",
+        )
+
+        self.connect_attr(
+            outputhierarchy=[*resample_hierarchy, ds_bold_std_wf],
+            outputnode=bold_mask_std,
+            outattr="out_file",
+            inputhierarchy=hierarchy,
+            inputnode=inputnode,
+            inattr="boldmask",
+        )
+
 
 class SmoothingFactory(LookupFactory):
     def _prototype(self, lookup_tuple: LookupTuple) -> pe.Workflow:
@@ -406,6 +433,12 @@ class ConfoundsRegressionFactory(LookupFactory):
 class PostProcessingFactory(Factory):
     def __init__(self, ctx: FactoryContext, fmriprep_factory: FmriprepFactory) -> None:
         super().__init__(ctx)
+        """
+        Through this init function we decide what information/variables are available in each factory.
+        This generates a sequential dependency between the factories, because the LookUp factory class
+        always checks the previous factory.
+        Practically, this defines order of our own processing steps.
+        """
 
         self.fmriprep_factory = fmriprep_factory
 
@@ -499,8 +532,12 @@ class PostProcessingFactory(Factory):
                 )
 
     def get(self, source_file, setting_name, confounds_action=None):
+        # self.fmriprep_adapter_factory.get(source_file)
         if self.ctx.spec.global_settings["run_aroma"] is True:
             # Make sure ica aroma components are calculated when enabled
+            # The component calculation is independent from the noise components regression application
+            # so we generally ran components by default and apply them if the specific settings of spec file
+            # shows "ica_aroma=True"
             self.ica_aroma_components_factory.get(source_file)
         if confounds_action == "select":
             return self.confounds_select_factory.get(source_file, setting_name)

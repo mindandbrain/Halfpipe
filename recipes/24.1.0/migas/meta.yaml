@@ -1,0 +1,39 @@
+{% set name = "migas" %}
+{% set version = "0.4.0" %}
+
+# Dependencies derived from:
+# https://github.com/nipreps/migas-py/blob/main/pyproject.toml
+
+package:
+  name: "{{ name|lower }}"
+  version: {{ version }}
+
+source:
+  url: https://files.pythonhosted.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 069481021e86fb9a84b9977f2f5adb9c77c5220787065859b9510cf80e7095f5
+
+build:
+  number: 0
+  script: {{ PYTHON }} -m pip install --default-timeout=100 . --no-deps -v
+
+requirements:
+  host:
+    - pip
+    - python 3.11.*
+    - hatchling
+    - hatch-vcs
+
+  run:
+    - python 3.11.*
+    - hatchling
+    - hatch-vcs
+    - ci-info
+
+
+test:
+  imports:
+    - migas
+
+about:
+  home: https://github.com/nipreps/migas-py
+  summary: 'A Python package to communicate with a migas server.'

@@ -1,0 +1,51 @@
+{% set name = "sdcflows" %}
+{% set version = "2.10.0" %}
+
+# Dependencies derived from:
+# https://github.com/nipreps/sdcflows/blob/2.10.0/pyproject.toml
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  git_url: https://github.com/nipreps/sdcflows.git
+  git_rev: "{{ version }}"
+
+build:
+  number: 0
+  script: "{{ PYTHON }} -m pip install --default-timeout=100 . --no-deps -v"
+
+requirements:
+  host:
+    - python 3.11.*
+    - pip
+    - hatchling
+    - hatch-vcs
+    - nipreps-versions
+  run:
+    - python 3.11.*
+    - attrs>=20.1.0
+    - nibabel>=3.1.0
+    - nipype # 1.8.5,<2.0
+    - traits<6.4
+    - migas>=0.4.0
+    - niworkflows>=1.7.0
+    - nitransforms>=23.0.1
+    - numpy>=1.21.0
+    - pybids>=0.16.4
+    - scikit-image>0.18
+    - scipy>=1.8.1
+    - templateflow
+    - toml
+
+test:
+  imports:
+    - sdcflows
+
+about:
+  home: https://github.com/nipreps/sdcflows
+  license: Apache-2.0
+  license_family: Apache
+  license_file: LICENSE
+  summary: "Susceptibility Distortion Correction Flows - a toolbox for preprocessing magnetic resonance images of the brain."
