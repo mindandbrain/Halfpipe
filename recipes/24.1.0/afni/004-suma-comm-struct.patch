@@ -1,0 +1,13 @@
+diff --git a/src/SUMA/SUMA_InstaTract.c b/src/SUMA/SUMA_InstaTract.c
+index 193e85378..e1151d98e 100644
+--- a/src/SUMA/SUMA_InstaTract.c
++++ b/src/SUMA/SUMA_InstaTract.c
+@@ -347,7 +347,7 @@ int SendToSuma (COMM_STRUCT *cs, NI_group *ngru, int action)
+ 
+ 
+          /* now wait till stream goes bad */
+-         SUMA_Wait_Till_Stream_Goes_Bad(cs, 1000, 5000, 1);
++         SUMA_Wait_Till_Stream_Goes_Bad((SUMA_COMM_STRUCT*) cs, 1000, 5000, 1);
+           
+          NI_stream_close(cs->NimlStream);
+          cs->NimlStream = NULL;

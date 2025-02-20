@@ -24,6 +24,9 @@ online_resources: dict[str, str] = {
     "tpl-MNI152NLin2009cAsym_RegistrationCheckOverlay.nii.gz": "https://figshare.com/ndownloader/files/22447958",
 }
 
+# dict[str, Resource]
+# Refactor this into a pair that contains the checksum
+
 
 @dataclass
 class Session(AbstractContextManager):

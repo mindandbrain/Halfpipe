@@ -1,0 +1,37 @@
+{% set name = "acres" %}
+{% set version = "0.1.0" %}
+
+# Dependencies derived from:
+# https://github.com/nipreps/acres/blob/main/pyproject.toml
+
+package:
+  name: "{{ name|lower }}"
+  version: {{ version }}
+
+source:
+  url: https://files.pythonhosted.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 4765479683389849368947da9e5319e677e7323ed858d642f9736ad1c070f45b
+
+build:
+  number: 0
+  script: {{ PYTHON }} -m pip install --default-timeout=100 . --no-deps -v
+
+requirements:
+  host:
+    - pip
+    - python 3.11.*
+    - pdm-backend
+    - flit-core
+
+  run:
+    - python 3.11.*
+    - pdm-backend
+
+
+test:
+  imports:
+    - acres
+
+about:
+  home: https://github.com/nipreps/acres
+  summary: 'This module aims to provide a simple way to access package resources that will fit most use cases.'

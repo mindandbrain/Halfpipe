@@ -1,0 +1,13 @@
+diff --git a/cmake/make_sure_afnipy_is_installed.sh b/cmake/make_sure_afnipy_is_installed.sh
+index fb91bfd88..ff17660c8 100644
+--- a/cmake/make_sure_afnipy_is_installed.sh
++++ b/cmake/make_sure_afnipy_is_installed.sh
+@@ -32,7 +32,7 @@ then
+   if [ -z ${DO_NOT_USE_PIP+x} ]
+   then
+    # variable not set
+-    eval "$py_interp -m pip install -e ."
++    eval "$py_interp -m pip install --verbose ."
+   else
+     eval "$py_interp setup.py develop"
+   fi

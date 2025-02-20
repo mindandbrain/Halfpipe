@@ -9,10 +9,13 @@ repos:
       - id: check-ast
       - id: check-symlinks
       - id: mixed-line-ending
+        exclude_types: [diff]
       - id: check-case-conflict
       - id: fix-byte-order-marker
       - id: trailing-whitespace
+        exclude_types: [diff]
       - id: end-of-file-fixer
+        exclude_types: [diff]
       - id: no-commit-to-branch
         args: ["--branch", "main"]
   - repo: https://github.com/astral-sh/ruff-pre-commit
@@ -32,10 +35,9 @@ repos:
     hooks:
       - id: mypy
         additional_dependencies:
-          [
-            numpy,
-            types-chardet,
-            types-requests,
-            types-tabulate,
-            typing_extensions,
-          ]
+          - numpy
+          - types-chardet
+          - types-requests
+          - types-tabulate
+          - typing_extensions
+        # args: ["--verbose"]

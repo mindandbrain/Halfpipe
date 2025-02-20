@@ -41,7 +41,7 @@ settings_list: list[TestSetting] = [
     TestSetting(
         name="icaAromaACompCor",  # was TrueComb1
         base_setting=dict(
-            confounds_removal=["a_comp_cor_0[0-4]"],
+            confounds_removal=["c_comp_cor_0[0-4]"],
             grand_mean_scaling=dict(mean=10000.0),
             ica_aroma=True,
         ),
@@ -91,10 +91,13 @@ settings_list: list[TestSetting] = [
             ica_aroma=True,
         ),
     ),
+    # we had to change the name of the confounds removal
+    # so we get the CSF only instead of the
+    # combined CSF + White matter.
     TestSetting(
         name="aCompCor",  # was FalseComb1
         base_setting=dict(
-            confounds_removal=["a_comp_cor_0[0-4]"],
+            confounds_removal=["c_comp_cor_0[0-4]"],
             grand_mean_scaling=dict(mean=10000.0),
             ica_aroma=False,
         ),
@@ -144,6 +147,37 @@ settings_list: list[TestSetting] = [
             ica_aroma=False,
         ),
     ),
+    #!added new simpleScrubbing & simpleScrubbingGSR
+    TestSetting(
+        name="simpleScrubbing",
+        base_setting=dict(
+            confounds_removal=[
+                "(trans|rot)_[xyz]",
+                "(trans|rot)_[xyz]_derivative1",
+                "(trans|rot)_[xyz]_power2",
+                "(trans|rot)_[xyz]_derivative1_power2",
+                "motion_outlier[0-9]+",
+            ],
+            grand_mean_scaling=dict(mean=10000.0),
+            ica_aroma=False,
+        ),
+    ),
+    TestSetting(
+        name="simpleScrubbingGSR",
+        base_setting=dict(
+            confounds_removal=[
+                "(trans|rot)_[xyz]",
+                "(trans|rot)_[xyz]_derivative1",
+                "(trans|rot)_[xyz]_power2",
+                "(trans|rot)_[xyz]_derivative1_power2",
+                "motion_outlier[0-9]+",
+                "global_signal",
+            ],
+            grand_mean_scaling=dict(mean=10000.0),
+            ica_aroma=False,
+        ),
+    ),
+    # ? Add counterparts with ICA_AROMA not enabled
 ]
 
 
@@ -156,7 +190,6 @@ def test_extraction(dataset: Dataset, tmp_path: Path, pcc_mask: Path):
     """
 
     dataset_file = dataset.download(tmp_path)
-
     spec = make_spec(dataset_files=[dataset_file], pcc_mask=pcc_mask, test_settings=settings_list)
     config.nipype.omp_nthreads = cpu_count()
     save_spec(spec, workdir=tmp_path)
@@ -188,10 +221,21 @@ def test_extraction(dataset: Dataset, tmp_path: Path, pcc_mask: Path):
                 ("Timeseries", dict(sub=sub, feature=f"{name}CorrMatrix", suffix="timeseries", task="rest", extension=".tsv")),
                 ("Correlation matrix", dict(sub=sub, feature=f"{name}CorrMatrix", suffix="matrix", desc="correlation")),
                 ("Dualreg", dict(sub=sub, feature=f"{name}DualReg", suffix="statmap", stat="z", component="8")),
+                (
+                    "Dualreg sidecar",
+                    dict(sub=sub, feature=f"{name}DualReg", suffix="statmap", stat="effect", component="8", extension=".json"),
+                ),  # noqa: E501
                 ("Falff", dict(sub=sub, feature=f"{name}FALFF", suffix="falff", extension=".nii.gz")),
+                ("Falff sidecar", dict(sub=sub, feature=f"{name}FALFF", suffix="falff", extension=".json")),
                 ("Alff", dict(sub=sub, feature=f"{name}FALFF", suffix="alff", extension=".nii.gz")),
+                ("Alff sidecar", dict(sub=sub, feature=f"{name}FALFF", suffix="alff", extension=".json")),
                 ("ReHo", dict(sub=sub, feature=f"{name}ReHo", suffix="reho", extension=".nii.gz")),
+                ("ReHo sidecar", dict(sub=sub, feature=f"{name}ReHo", suffix="reho", extension=".json")),
                 ("Seed connectivity", dict(sub=sub, feature=f"{name}SeedCorr", suffix="statmap", stat="z")),
+                (
+                    "Seed connectivity sidecar",
+                    dict(sub=sub, feature=f"{name}SeedCorr", suffix="statmap", stat="effect", extension=".json"),
+                ),
             ]:
                 feature_path = index.get(**kwargs)
                 assert feature_path is not None and len(feature_path) == 1, (

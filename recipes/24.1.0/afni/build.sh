@@ -1,0 +1,34 @@
+#!/bin/bash
+
+set -e
+set -x
+
+GIT_DESCRIBE_TAG="${PKG_VERSION}"
+CPATH="${LIBRARY_PREFIX}/include"
+export GIT_DESCRIBE_TAG CPATH
+
+mkdir -p build/afni_data
+cd build || exit 1
+# shellcheck disable=SC2086
+cmake ${CMAKE_ARGS} \
+    -DCOMP_COREBINARIES:BOOL=ON \
+    -DCOMP_RSTATS:BOOL=OFF \
+    -DCOMP_ATLASES:BOOL=OFF \
+    -DCOMP_SUMA:BOOL=ON \
+    -DCOMP_TCSH:BOOL=OFF \
+    -DCOMP_PYTHON:BOOL=OFF \
+    -DSTANDARD_PYTHON_INSTALL:BOOL=ON \
+    -DPython_ROOT_DIR:PATH="${PREFIX}" \
+    -DJPEG_INCLUDE_DIR:PATH="${PREFIX}/include" \
+    -DJPEG_LIBRARY:FILEPATH="${PREFIX}/lib/libjpeg${SHLIB_EXT}" \
+    -DUSE_SYSTEM_F2C:BOOL=ON \
+    -DUSE_SYSTEM_GLUT:BOOL=ON \
+    -DUSE_SYSTEM_QHULL:BOOL=ON \
+    -DUSE_SYSTEM_DCM2NIIX:BOOL=ON \
+    -DBUILD_SHARED_LIBS:BOOL=ON \
+    -DCMAKE_C_FLAGS:STRING="${CFLAGS} -D_GNU_SOURCE -I${SRC_DIR}/src/f2c" \
+    -DCMAKE_VERBOSE_MAKEFILE:BOOL=OFF \
+    ..
+
+make --jobs="$(nproc)"
+make install

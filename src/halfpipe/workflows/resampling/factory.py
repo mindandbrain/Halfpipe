@@ -10,6 +10,11 @@ from .alt import init_alt_bold_std_trans_wf
 
 
 class AltBOLDFactory(Factory):
+    """
+    Draft: Factory to allow the use if ICA AROMA.
+    Factories allow the automatic connection of nodes that share the name.
+    """
+
     def __init__(self, ctx, fmriprep_factory):
         super(AltBOLDFactory, self).__init__(ctx)
 

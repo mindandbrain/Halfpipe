@@ -1,0 +1,40 @@
+{% set name = "nitransforms" %}
+{% set version = "24.0.2" %}
+
+# Dependencies derived from:
+# https://github.com/nipy/nitransforms/blob/23.0.1/setup.cfg
+
+package:
+  name: {{ name }}
+  version: {{ version }}
+
+source:
+  url: https://files.pythonhosted.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: ec2d07686989865001cc667dd20971f3ae529d5366b76c03966397ddb9e72572
+
+build:
+  number: 0
+  script: {{ PYTHON }} -m pip install --default-timeout=100 . --no-deps -vv
+
+requirements:
+  host:
+    - pip
+    - python 3.11.*
+    - numpy
+    - scipy=1.11.3
+    - nibabel>=3.0
+    - h5py
+  run:
+    - python 3.11.*
+    - numpy
+    - scipy=1.11.3
+    - h5py
+    - nibabel>=3.0
+
+test:
+  imports:
+    - nitransforms
+
+about:
+  home: https://github.com/nipy/nitransforms
+  summary: 'A development repo for nipy/nibabel#656'

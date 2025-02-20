@@ -16,6 +16,10 @@ def init_confounds_select_wf(
     name: str | None = None,
     suffix: str | None = None,
 ):
+    """
+    We select different confound regressors depending on the feature we want to calculate.
+    The confounds from the inputnode come from setting_adapter_wf.
+    """
     if name is None:
         if confound_names is not None:
             name = f"confounds_select_{b32_digest(confound_names)[:4]}_wf"

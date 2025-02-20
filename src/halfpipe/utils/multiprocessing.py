@@ -6,6 +6,7 @@ import multiprocessing.pool as mp_pool
 import os
 from contextlib import nullcontext
 from enum import Enum, auto
+from functools import partialmethod
 from multiprocessing import active_children, get_context
 from typing import Any, Callable, ContextManager, Iterable, Iterator, Sized, TypeVar
 
@@ -16,11 +17,15 @@ def mock_tqdm(iterable, *args, **kwargs):
     return iterable
 
 
-def get_init_args() -> tuple[set[int], dict[str, Any], dict[str, str], str]:
+def get_init_args() -> tuple[set[int] | None, dict[str, Any], dict[str, str], str]:
     from ..logging.base import LoggingContext
 
+    affinity: set[int] | None = None
+    if hasattr(os, "sched_getaffinity"):
+        affinity = os.sched_getaffinity(0)
+
     return (
-        os.sched_getaffinity(0),
+        affinity,
         LoggingContext.logging_args(),
         dict(os.environ),
         os.getcwd(),
@@ -28,21 +33,24 @@ def get_init_args() -> tuple[set[int], dict[str, Any], dict[str, str], str]:
 
 
 def initializer(
-    sched_affinity: set[int],
+    sched_affinity: set[int] | None,
     logging_kwargs: dict[str, Any],
     host_env: dict[str, str],
     host_cwd: str,
 ) -> None:
-    os.sched_setaffinity(0, sched_affinity)
+    if sched_affinity is not None:
+        if hasattr(os, "sched_setaffinity"):
+            os.sched_setaffinity(0, sched_affinity)
 
     os.chdir(host_cwd)
 
-    # Do not show tqdm progress bars from subprocesses
-    import tqdm
-    import tqdm.auto
+    # Do not show tqdm progress bars from subprocesses as per
+    # https://github.com/nsidc/earthaccess/issues/612#issuecomment-2189744434
+    from tqdm import tqdm
+    from tqdm.auto import tqdm as tqdm_auto
 
-    tqdm.tqdm = mock_tqdm
-    tqdm.auto.tqdm = mock_tqdm
+    tqdm.__init__ = partialmethod(tqdm.__init__, disable=True)  # type: ignore
+    tqdm_auto.__init__ = partialmethod(tqdm_auto.__init__, disable=True)  # type: ignore
 
     # Make sure we send all logging to the logger process
     from ..logging.base import setup as setup_logging

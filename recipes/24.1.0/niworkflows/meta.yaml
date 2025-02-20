@@ -1,0 +1,61 @@
+{% set name = "niworkflows" %}
+{% set version = "1.11.0" %}
+
+# Dependencies derived from:
+# https://github.com/nipreps/niworkflows/blob/maint/1.11.x/pyproject.toml
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 932bc150ea29f7d83febda9ecd05023ecd45454b532a0aec2b505ebf0a25cbc7
+
+build:
+  number: 0
+  script: {{ PYTHON }} -m pip install --default-timeout=100 . --no-deps -v
+
+requirements:
+  host:
+    - python 3.11.*
+    - pip
+    - hatchling
+    - hatch-vcs
+  run:
+    - python 3.11.*
+    - attrs
+    - acres
+    - jinja2
+    - looseversion
+    - importlib_resources>=5.7
+    - matplotlib>=3.4.2
+    - nibabel>=3.0
+    - nilearn>=0.5.2
+    - nipype>=1.8.5
+    - nitransforms>=21.0.0
+    - numpy
+    - packaging
+    - pandas
+    - pybids>=0.15.1
+    - PyYAML
+    - scikit-image
+    - scikit-learn
+    - scipy
+    - seaborn
+    - svgutils>=0.3.4  # https://github.com/nipreps/niworkflows/issues/595
+    - transforms3d
+    - templateflow>=0.7.2
+    - traits<6.4
+
+
+test:
+  imports:
+    - niworkflows
+
+about:
+  home: https://github.com/nipreps/niworkflows
+  license: Apache-2.0
+  license_family: Apache
+  license_file: LICENSE
+  summary: "NeuroImaging Workflows provides processing tools for magnetic resonance images of the brain."

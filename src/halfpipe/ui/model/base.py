@@ -41,6 +41,7 @@ def _resolve_across(ctx, inputname):
 def _get_fe_aggregate(ctx, inputname, across):
     assert all(entity in aggregate_order for entity in across)
 
+    # check if already exists
     for obj in ctx.spec.models:
         if obj.type != "fe":
             continue
@@ -58,7 +59,6 @@ def _get_fe_aggregate(ctx, inputname, across):
         return obj.name
 
     # need to create
-
     display_strs = [entity_display_aliases[entity] if entity in entity_display_aliases else entity for entity in across]
     acrossstr = " then ".join([p.plural(display_str) for display_str in display_strs])
     inputname_with_spaces = humanize(underscore(inputname))
@@ -112,6 +112,7 @@ class ModelAggregateStep(Step):
             feature_filepaths = [*filepaths]
             if filters is not None and len(filters) > 0:
                 feature_filepaths = ctx.database.applyfilters(feature_filepaths, filters)
+            # find all entities with more than one value for the given feature
             self.feature_entities[obj.name], _ = ctx.database.multitagvalset(aggregate_order, filepaths=feature_filepaths)
 
         entitiesset = set.union(*[set(entitylist) for entitylist in self.feature_entities.values()])
@@ -161,6 +162,7 @@ class ModelAggregateStep(Step):
 
         for i, inputname in enumerate(ctx.spec.models[-1].inputs):
             if inputname in to_aggregate:
+                # add to spec if not existing
                 ctx.spec.models[-1].inputs[i] = _get_fe_aggregate(ctx, inputname, to_aggregate[inputname])
 
         if len(self.options) > 0 or self.is_first_run:

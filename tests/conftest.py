@@ -50,4 +50,3 @@ def wakemandg_hensonrn_raw(tmp_path_factory):
     )
 
     return data
-    return data
