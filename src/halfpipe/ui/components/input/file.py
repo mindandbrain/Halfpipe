@@ -166,10 +166,10 @@ class FileInputView(CallableView):
         size = 0
 
         text_size = self.text_input_view.draw_at(y + size)
-        suggestion_size = self.suggestion_view.draw_at(y + size)
-
         if text_size is not None:
             size += text_size
+
+        suggestion_size = self.suggestion_view.draw_at(y + size)
         if suggestion_size is not None:
             size += suggestion_size
 
