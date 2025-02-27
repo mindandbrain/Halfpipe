@@ -2,12 +2,31 @@
 # emacs: -*- mode: python; py-indent-offset: 4; indent-tabs-mode: nil -*-
 # vi: set ft=python sts=4 ts=4 sw=4 et:
 
-from sdcflows.workflows.pepolar import check_pes
-
 from ..ingest.database import Database
 from ..ingest.metadata.direction import canonicalize_direction_code
 from ..logging import logger
 from ..utils.format import inflect_engine as pe
+
+
+def check_pes(epi_fmaps, pe_dir):
+    """Check whether there are images with matched PE.
+    Note: Function backported from sdcworkflows 1.3.5."""
+    opposed_pe = False
+    matched_pe = False
+
+    for _, fmap_pe in epi_fmaps:
+        if fmap_pe == pe_dir:
+            matched_pe = True
+        elif fmap_pe[0] == pe_dir[0]:
+            opposed_pe = True
+
+    if not opposed_pe:
+        raise ValueError("""\
+None of the discovered fieldmaps has the right phase encoding direction. \
+This is possibly a problem with metadata. If not, rerun with \
+``--ignore fieldmaps`` to skip the distortion correction step.""")
+
+    return matched_pe
 
 
 def collect_pe_dir(database: Database, c: str):

@@ -1,0 +1,43 @@
+{% set name = "mapca" %}
+{% set version = "0.0.5" %}
+
+# Dependencies derived from:
+# https://github.com/ME-ICA/mapca/blob/main/pyproject.toml
+
+package:
+  name: "{{ name|lower }}"
+  version: {{ version }}
+
+source:
+  url: https://files.pythonhosted.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 948fd1f7a8ab2a41e4fe67694a36a626b7fc23f549bc0dcc0129bdc4535d2c8e
+
+build:
+  number: 0
+  script: {{ PYTHON }} -m pip install --default-timeout=100 . --no-deps -v
+
+requirements:
+  host:
+    - pip
+    - python 3.11.*
+    - hatchling
+    - hatch-vcs
+  run:
+    - python 3.11.*
+    - hatchling
+    - nibabel>=2.5.1
+    - nilearn
+    - numpy>=1.16
+    - scikit-learn>=1.2
+    - scipy>=1.3.3
+
+
+test:
+  imports:
+    - mapca
+    - mapca.utils
+    - mapca.mapca
+
+about:
+  home: https://github.com/ME-ICA/mapca
+  summary: 'Moving Average Principal Component Analysis for fMRI data'

@@ -1,0 +1,46 @@
+{% set name = "tedana" %}
+{% set version = "23.0.2" %}
+
+# Dependencies derived from:
+# https://github.com/ME-ICA/tedana/blob/23.0.2/pyproject.toml
+
+package:
+  name: "{{ name|lower }}"
+  version: {{ version }}
+
+source:
+  url: https://files.pythonhosted.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: cc3a9eead1c8a72c5082f8a642c7a536f9774d907e620c63a27ff11d1b59a6a3
+
+build:
+  number: 0
+  script: {{ PYTHON }} -m pip install --default-timeout=100 . --no-deps -v
+
+requirements:
+  host:
+    - pip
+    - python 3.11.*
+    - hatchling
+    - hatch-vcs
+  run:
+    - python 3.11.*
+    - hatchling
+    - bokeh
+    - mapca>=0.0.3
+    - matplotlib
+    - nibabel>=2.5.1
+    - nilearn>=0.7
+    - numpy>=1.16
+    - pandas>=2.0
+    - scikit-learn>=0.21
+    - scipy>=1.2.0
+    - threadpoolctl
+
+
+test:
+  imports:
+    - tedana
+
+about:
+  home: https://github.com/ME-ICA/tedana
+  summary: 'tedana is a Python library for denoising multi-echo fMRI data'

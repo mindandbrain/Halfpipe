@@ -220,9 +220,11 @@ def run_stage_run(opts: Namespace):
             firstnode = next(iter(chunk.nodes()))
             if firstnode is not None:
                 assert isinstance(firstnode, pe.Node)
+                logger.warning(f"Running chunk with {len(chunk.nodes())} nodes. First node: {firstnode.fullname}")
                 runner.run(chunk, updatehash=False, config=firstnode.config)
         except Exception as e:
             if opts.debug:
+                #! here is nice to have a set trace.
                 raise e
             else:
                 logger.warning(f"Ignoring exception in chunk {i + 1}", exc_info=True)

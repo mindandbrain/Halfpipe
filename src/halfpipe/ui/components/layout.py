@@ -2,8 +2,6 @@
 # emacs: -*- mode: python; py-indent-offset: 4; indent-tabs-mode: nil -*-
 # vi: set ft=python sts=4 ts=4 sw=4 et:
 
-from __future__ import annotations
-
 import curses
 from typing import TYPE_CHECKING
 
@@ -30,14 +28,14 @@ class Layout:
             raise ValueError("Keyboard is not initialized")
         self.keyboard: Keyboard = keyboard
 
-        self.views_by_id: dict[int, View] = dict()
+        self.views_by_id: dict[int, "View"] = dict()
         self.view_order: list[int] = list()
         self.view_sizes_by_id: dict[int, int] = dict()
-        self.focused_view: View | None = None
+        self.focused_view: "View | None" = None
 
         self.viewport_min = 0
 
-        self.window: curses._CursesWindow = curses.newpad(16384, base_pad_width)
+        self.window: "curses._CursesWindow" = curses.newpad(16384, base_pad_width)
         self.window.leaveok(False)
 
         self.status_bar = curses.newpad(1, base_pad_width)
@@ -45,7 +43,7 @@ class Layout:
 
         self.draw()
 
-    def append(self, view: View):
+    def append(self, view: "View"):
         id = view.id
         self.views_by_id[id] = view
         self.view_sizes_by_id[id] = 0
@@ -54,7 +52,7 @@ class Layout:
         self.focused_view = view
         return view  # for chaining
 
-    def remove(self, view: View) -> View:
+    def remove(self, view: "View") -> "View":
         view.erase()
         id = view.id
         if id in self.views_by_id:
@@ -69,7 +67,7 @@ class Layout:
             self.focused_view = None
         return view  # for chaining
 
-    def focus(self, view: View) -> None:
+    def focus(self, view: "View") -> None:
         self.focused_view = view
 
     def _calc_viewport(self, viewport_size: int) -> None:
@@ -102,12 +100,12 @@ class Layout:
             pass
         curses.doupdate()
 
-    def get_view_size(self, view: View) -> int | None:
+    def get_view_size(self, view: "View") -> int | None:
         if view.id in self.view_sizes_by_id:
             return self.view_sizes_by_id[view.id]
         return None
 
-    def set_view_size(self, view: View, new_size: int) -> None:
+    def set_view_size(self, view: "View", new_size: int) -> None:
         if view.id not in self.view_sizes_by_id or new_size is None:
             return
         if self.view_sizes_by_id[view.id] != new_size:
@@ -116,7 +114,7 @@ class Layout:
             for dependent_view_id in self.view_order[index + 1 :]:
                 self.views_by_id[dependent_view_id].draw()
 
-    def offset(self, view: View) -> int | None:
+    def offset(self, view: "View") -> int | None:
         try:
             index = self.view_order.index(view.id)
             return sum([self.view_sizes_by_id[id] for id in self.view_order[:index]])

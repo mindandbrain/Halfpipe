@@ -1,0 +1,67 @@
+{% set name = "fmripost_aroma" %}
+{% set version = "0.0.8" %}
+
+# Dependencies derived from:
+# https://github.com/nipreps/fmripost-aroma/blob/d84d680417bed05eda6a4db6374f2825f4893721/pyproject.toml
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  git_url: https://github.com/nipreps/fmripost-aroma.git
+  git_rev: "{{ version }}"
+
+build:
+  number: 0
+  script: "{{ PYTHON }} -m pip install --default-timeout=100 . --no-deps -v"
+
+requirements:
+  host:
+    - python 3.11.*
+    - hatchling
+    - hatch-vcs
+  run:
+    - python 3.11.*
+    - fmriprep
+    - nipype>=1.8.5
+    - nireports
+    - nitransforms>=24.0.2
+    - niworkflows
+    - sdcflows
+    - smriprep
+    - typer
+    # Dependencies from https://github.com/nipreps/fmripost-aroma/blob/main/env.yml
+    # git-annex for templateflow users with DataLad superdatasets
+    - git-annex=*=alldep*
+    # Base scientific python stack; required by FSL, so pinned here
+    - numpy=1.26
+    - scipy=1.11
+    - matplotlib=3.8
+    - pandas=2.2
+    - h5py=3.10
+    # Dependencies compiled against numpy, best to stick with conda
+    - scikit-learn=1.4
+    # Utilities
+    - graphviz=9.0
+    - pandoc=3.1
+    # Workflow dependencies: FSL (versions pinned in 6.0.7.7)
+    # We need SUSAN and MELODIC for ICA-AROMA
+    - fsl-bet2=2111.4
+    - fsl-melodic=2111.3
+    - fsl-miscmaths=2203.2
+    - fsl-susan=2111.0
+    # Workflow dependencies: ANTs
+    - ants=2.5
+
+test:
+  imports:
+    - fmripost_aroma
+
+
+about:
+  home: https://www.nipreps.org/fmriprep/
+  license: Apache-2.0
+  license_family: Apache
+  license_file: LICENSE
+  summary: "fMRIprep - a robust and easy-to-use pipeline for preprocessing of functional magnetic resonance images (fMRI) of the brain."

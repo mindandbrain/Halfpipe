@@ -1,0 +1,74 @@
+package:
+  name: "halfpipe"
+  version: "unknown"
+
+source:
+  git_url: ../../..
+
+build:
+  number: 0
+  script: "{{ PYTHON }} -m pip install --default-timeout=100 . --no-deps -v"
+
+# Dependencies derived from:
+# requirements.in
+requirements:
+  host:
+    - python 3.11.*
+    - pip
+    - setuptools_scm>=6.2
+    - wheel
+  run:
+    - ants
+    - libitk!=5.4.1,!=5.4.2 # prevent segfaults
+    - rmath # local
+    - python 3.11.*
+    - fmriprep # local
+    - numba
+    - patsy>=0.5.2
+    - statsmodels>=0.14
+    - tabulate>=0.8.9
+    - pint>=0.17
+    # tools for loading spreadsheet data
+    - odfpy>=1.4.1
+    - xlrd>=1.0.0
+    - openpyxl>=3.0.7
+    - XlsxWriter>=1.4.4
+    # utlities
+    - flufl.lock>=5.0.3
+    - fasteners>=0.15
+    - chardet
+    - pympler>=0.9
+    - stackprinter>=0.2.5
+    - line_profiler>=4.0.1
+    - pyrsistent>=0.18.1
+    - inflect>=5.3.0
+    - inflection>=0.5.1
+    - parse>=1.19.0
+    - marshmallow>=3.10.0
+    - marshmallow-oneofschema
+    - marshmallow-dataclass>=8.5.3
+    - marshmallow-enum
+    - more-itertools>=8.7.0
+    # tools for downloading data
+    - requests>=2.25.1
+    - openneuro-py
+    - datalad==1.0.2
+    # unit tests
+    - pytest
+    - pytest-cov
+    - pytest-env
+    - pytest-github-actions-annotate-failures
+    - pytest-timeout
+    - pytest-xdist
+    # experimental user interface
+    - textual==0.60.0
+    - pytest-textual-snapshot
+
+test:
+  imports:
+    - halfpipe
+    - halfpipe.logging
+
+about:
+  home: https://github.com/HALFpipe/HALFpipe
+  summary: "HALFpipe is a user-friendly software that facilitates reproducible analysis of fMRI data"

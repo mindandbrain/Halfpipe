@@ -16,6 +16,32 @@ from ...utils.format import format_workflow
 from ..memory import MemoryCalculator
 
 
+def compute_falff(mask_file, filtered_file, unfiltered_file):
+    """
+    Computes fALFF using Nibabel instead of AFNI's 3dcalc.
+    """
+    import os
+
+    import nibabel as nib
+
+    mask_img = nib.load(mask_file)
+    filtered_img = nib.load(filtered_file)
+    unfiltered_img = nib.load(unfiltered_file)
+
+    mask_data = mask_img.get_fdata()
+    filtered_data = filtered_img.get_fdata()
+    unfiltered_data = unfiltered_img.get_fdata()
+
+    falff_data = (mask_data > 0) * (filtered_data / (unfiltered_data + 1e-6))
+    falff_img = nib.Nifti1Image(falff_data, affine=mask_img.affine, header=mask_img.header)
+
+    # Save file with absolute path
+    output_file = os.path.abspath("falff_output.nii.gz")
+    nib.save(falff_img, output_file)
+
+    return output_file
+
+
 def init_falff_wf(
     workdir: str | Path,
     feature=None,
@@ -95,13 +121,19 @@ def init_falff_wf(
     workflow.connect(unfiltered_inputnode, "bold", stddev_unfiltered, "in_file")
     workflow.connect(unfiltered_inputnode, "mask", stddev_unfiltered, "mask")
 
-    falff = pe.Node(afni.Calc(), name="falff", mem_gb=memcalc.volume_std_gb)
-    falff.inputs.args = "-float"
-    falff.inputs.expr = "(1.0*bool(a))*((1.0*b)/(1.0*c))"
-    falff.inputs.outputtype = "NIFTI_GZ"
-    workflow.connect(inputnode, "mask", falff, "in_file_a")
-    workflow.connect(stddev_filtered, "out_file", falff, "in_file_b")
-    workflow.connect(stddev_unfiltered, "out_file", falff, "in_file_c")
+    # calculate falff
+    falff = pe.Node(
+        niu.Function(
+            input_names=["mask_file", "filtered_file", "unfiltered_file"],
+            output_names=["out_file"],
+            function=compute_falff,
+        ),
+        name="falff",
+    )
+
+    workflow.connect(inputnode, "mask", falff, "mask_file")
+    workflow.connect(stddev_filtered, "out_file", falff, "filtered_file")
+    workflow.connect(stddev_unfiltered, "out_file", falff, "unfiltered_file")
 
     #
     merge = pe.Node(niu.Merge(2), name="merge")

@@ -12,12 +12,14 @@ requirements:
     - "{{ compiler('cxx') }}"
     - "{{ compiler('fortran') }}"
     - make
+    - libzlib >=1.2.13,<1.3.0a0
   host:
     - bzip2
     - curl
     - pcre2
     - xz
     - zlib
+    - libzlib >=1.2.13,<1.3.0a0
   run: []
 
 test:

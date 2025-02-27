@@ -9,7 +9,7 @@ import zipfile
 from os import path as op
 from pathlib import Path
 from shutil import copyfile
-from typing import Iterator
+from typing import Any, Iterator
 
 AnyPath = pathlib.Path | zipfile.Path
 
@@ -26,7 +26,7 @@ def resolve(path: Path | str, fs_root: Path | str) -> Path:
     return Path(abspath)
 
 
-def find_paths(obj):
+def find_paths(obj: Any) -> list[Path | str]:
     from pathlib import Path
 
     from nipype.interfaces.base.specs import BaseTraitedSpec
@@ -46,13 +46,22 @@ def find_paths(obj):
         elif isinstance(obj, dict):
             stack.extend(obj.values())
         elif isinstance(obj, str):
-            if not obj.startswith("def") and Path(obj).exists():
-                paths.append(obj)
-        elif isinstance(obj, Path):
-            if obj.exists():
-                paths.append(obj)
-        else:  # probably some kind of iterable
+            if obj.startswith("def"):
+                continue
+            path = Path(obj)
             try:
+                if path.exists():
+                    paths.append(path)
+            except OSError:
+                pass
+        elif isinstance(obj, Path):
+            try:
+                if obj.exists():
+                    paths.append(obj)
+            except OSError:
+                pass
+        else:
+            try:  # check if the obj is iterable
                 stack.extend(obj)
             except TypeError:
                 pass

@@ -1,0 +1,50 @@
+{% set name = "nireports" %}
+{% set version = "23.2.1" %}
+
+# Dependencies derived from:
+# https://github.com/nipreps/nireports/blob/main/pyproject.toml
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  git_url: https://github.com/nipreps/nireports.git
+  git_rev: "{{ version }}"
+
+build:
+  number: 0
+  script: "{{ PYTHON }} -m pip install --default-timeout=100 . --no-deps -v"
+
+requirements:
+  host:
+    - python 3.11.*
+    - pip
+    - hatchling
+    - hatch-vcs
+    - nipreps-versions
+  run:
+    - python 3.11.*
+    - matplotlib>=3.4.2
+    - importlib_resources>=5.12
+    - nibabel>=3.0.1
+    - nilearn>=0.5.2
+    - nipype # local
+    - numpy
+    - pandas
+    - pybids
+    - pyyaml
+    - seaborn
+    - svgutils>= 0.3.4
+    - templateflow # local
+
+test:
+  imports:
+    - nireports
+
+
+about:
+  # license: Apache-2.0
+  # license_family: Apache
+  # license_file: LICENSE
+  # summary: "fMRIprep - a robust and easy-to-use pipeline for preprocessing of functional magnetic resonance images (fMRI) of the brain."

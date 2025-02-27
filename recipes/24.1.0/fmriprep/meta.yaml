@@ -1,0 +1,93 @@
+# Dependencies derived from:
+# https://github.com/nipreps/fmriprep/blob/24.0.1/pyproject.toml
+# https://github.com/nipreps/fmriprep/blob/946b71ee2e4891c7d53cecfa68761bfc31b484fd/env.yml#L31C1-L37C21
+
+package:
+  name: "fmriprep"
+  version: "24.1.x"
+
+source:
+  git_url: https://github.com/nipreps/fmriprep.git
+  git_rev: "18a28efe090caabd0aad947e22f2954ba39d3472"
+
+build:
+  number: 0
+  script: "{{ PYTHON }} -m pip install --default-timeout=100 . --no-deps -v"
+
+requirements:
+  host:
+    - python 3.11.*
+    - pip
+    - hatchling
+    - hatch-vcs
+    - nipreps-versions
+  run:
+    - python 3.11.*
+    - looseversion
+    - nipype>=1.8.5
+    - nibabel>=4.0.1
+    - nitime
+    - numpy>=1.22
+    - packaging
+    - pandas
+    - psutil>=5.4
+    - pybids>=0.15.2
+    - requests
+    - toml
+    - codecarbon
+    - APScheduler
+    - transforms3d
+    - nireports>=23.2.1
+    - nitransforms>=24.0.2
+    - niworkflows>=1.10.1
+    - tedana>=23.0.2
+    - sdcflows>=2.8.1
+    - smriprep>=0.15.0
+    - templateflow>=24.1.0
+    - fsl-bet2=2111.4
+    - fsl-flirt=2111.2
+    - fsl-fast4=2111.3
+    - fsl-fugue=2201.3
+    - fsl-mcflirt=2111.0
+    - fsl-miscmaths=2203.2
+    - fsl-topup=2203.2
+
+test:
+  imports:
+    - fmriprep
+    - fmriprep.cli.parser
+    - fmriprep.cli.run
+    - fmriprep.cli.version
+    - fmriprep.cli.workflow
+    - fmriprep._warnings
+    - fmriprep.utils.meepi
+    - fmriprep.utils.telemetry
+    - fmriprep.utils.misc
+    - fmriprep.utils.confounds
+    - fmriprep.utils.bids
+    - fmriprep.utils.debug
+    - fmriprep.interfaces.patches
+    - fmriprep.interfaces.multiecho
+    - fmriprep.interfaces.reports
+    - fmriprep.interfaces.confounds
+    - fmriprep.interfaces.gifti
+    - fmriprep.interfaces.workbench
+    - fmriprep.interfaces.maths
+    - fmriprep.config
+    - fmriprep.workflows.bold.confounds
+    - fmriprep.workflows.bold.resampling
+    - fmriprep.workflows.bold.base
+    - fmriprep.workflows.bold.t2s
+    - fmriprep.workflows.bold.registration
+    - fmriprep.workflows.bold.hmc
+    - fmriprep.workflows.bold.outputs
+    - fmriprep.workflows.bold.stc
+    - fmriprep.workflows.base
+    - fmriprep.reports.core
+
+about:
+  home: https://www.nipreps.org/fmriprep/
+  license: Apache-2.0
+  license_family: Apache
+  license_file: LICENSE
+  summary: "fMRIprep - a robust and easy-to-use pipeline for preprocessing of functional magnetic resonance images (fMRI) of the brain."

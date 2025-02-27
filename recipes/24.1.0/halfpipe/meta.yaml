@@ -3,14 +3,12 @@ package:
   version: "unknown"
 
 source:
-  git_url: ../..
+  git_url: ../../..
 
 build:
   number: 0
   script: "{{ PYTHON }} -m pip install --default-timeout=100 . --no-deps -v"
 
-# Dependencies derived from:
-# requirements.in
 requirements:
   host:
     - python 3.11.*
@@ -19,28 +17,43 @@ requirements:
     - wheel
   run:
     - ants
-    - libitk!=5.4.1,!=5.4.2 # prevent segfaults
-    - rmath # local
+    - rmath
     - python 3.11.*
-    - fmriprep # local
+    - nipype>=1.8.1
+    - fmriprep
+    - smriprep
+    - niworkflows
+    - sdcflows
+    - nibabel>=4.0.0
+    - templateflow
+    - pybids
+    - openneuro-py
+    - numpy>=1.20
+    - scipy>=1.8.2
     - numba
+    - pandas>=1.2.0
     - patsy>=0.5.2
     - statsmodels>=0.14
     - tabulate>=0.8.9
     - pint>=0.17
-    # tools for loading spreadsheet data
+    - datalad
+    - matplotlib
+    - seaborn>=0.11.1
+    - svgutils>=0.3.1
     - odfpy>=1.4.1
     - xlrd>=1.0.0
     - openpyxl>=3.0.7
     - XlsxWriter>=1.4.4
-    # utlities
     - flufl.lock>=5.0.3
+    - psutil>=5.8.0
+    - threadpoolctl
     - fasteners>=0.15
     - chardet
     - pympler>=0.9
     - stackprinter>=0.2.5
     - line_profiler>=4.0.1
     - pyrsistent>=0.18.1
+    - requests>=2.25.1
     - inflect>=5.3.0
     - inflection>=0.5.1
     - parse>=1.19.0
@@ -49,18 +62,24 @@ requirements:
     - marshmallow-dataclass>=8.5.3
     - marshmallow-enum
     - more-itertools>=8.7.0
-    # tools for downloading data
-    - requests>=2.25.1
-    - openneuro-py
-    - datalad==1.0.2
-    # unit tests
     - pytest
     - pytest-cov
     - pytest-env
     - pytest-github-actions-annotate-failures
     - pytest-timeout
     - pytest-xdist
-    # experimental user interface
+    - python
+    - fsl-feat5
+    - fsl-film
+    - fsl-flameo
+    - fmripost_aroma
+    - afni-3dfwhmx
+    - afni-3dtproject
+    - afni-3dblurtofwhm
+    - afni-3dcalc
+    - afni-3dtstat
+    - afni-3dreho
+    # New user interface
     - textual==0.60.0
     - pytest-textual-snapshot
 
